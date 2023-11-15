@@ -11,14 +11,25 @@ namespace MachineWarehouse.Models.Repository
         public DbSet<CarBrand> Brands { get; set; }
         public DbSet<CarColor> Colors { get; set; }
 
-        public ApplicationContext() 
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) 
         {
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=CarWareHousedb;Username=postgres;Password=1234");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=CarWareHousedb;Username=postgres;Password=1234");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData(
+                new Role[]
+                {
+                    new Role {Id = 1, RoleName = "Admin" },
+                    new Role {Id = 2, RoleName = "Manager" },
+                    new Role {Id = 3, RoleName = "User" }
+                }) ;
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using MachineWarehouse.Models.Entities;
+﻿using AutoMapper;
+using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Repository;
 using MachineWarehouse.Models.Request.UserRequestModels;
+using MachineWarehouse.Models.Request.UserVm;
 using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.UserServices
@@ -8,10 +10,12 @@ namespace MachineWarehouse.Services.UserServices
     public class UserServices : IUserServices
     {
         private readonly ApplicationContext _context;
+        private readonly IMapper _mapper;
 
-        public UserServices(ApplicationContext applicationContext)
+        public UserServices(ApplicationContext applicationContext, IMapper mapper)
         {
             _context = applicationContext;
+            _mapper = mapper;
         }
 
         public async Task<User> CreateUser(CreateUser request)
@@ -39,16 +43,16 @@ namespace MachineWarehouse.Services.UserServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<GetUsersVm>> GetAllUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = _mapper.Map<List<GetUsersVm>>(await _context.Users.ToListAsync());
 
             return users;
         }
 
-        public async Task<User> GetUserByid(int id)
+        public async Task<GetUserVm> GetUserByid(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+            var user = _mapper.Map<GetUserVm>(await _context.Users.FirstOrDefaultAsync(user => user.Id == id));
 
             return user;
         }

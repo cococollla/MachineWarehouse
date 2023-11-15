@@ -1,6 +1,8 @@
-﻿using MachineWarehouse.Models.Entities;
+﻿using AutoMapper;
+using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Repository;
 using MachineWarehouse.Models.Request.CarRequestModels;
+using MachineWarehouse.Models.Request.CarVm;
 using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.CarServices
@@ -8,10 +10,12 @@ namespace MachineWarehouse.Services.CarServices
     public class CarServices : ICarServices
     {
         private readonly ApplicationContext _context;
+        private readonly IMapper _mapper;
 
-        public CarServices(ApplicationContext context)
+        public CarServices(ApplicationContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Car> AddCar(CreateCar request)
@@ -39,16 +43,16 @@ namespace MachineWarehouse.Services.CarServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Car>> GetAllCars()
+        public async Task<List<GetCarsVm>> GetAllCars()
         {
-            var cars = await _context.Cars.ToListAsync();
+            var cars =  _mapper.Map<List<GetCarsVm>>(await _context.Cars.ToListAsync());
 
             return cars;
         }
 
-        public async Task<Car> GetCarById(int id)
+        public async Task<GetCarVm> GetCarById(int id)
         {
-            var car = await _context.Cars.FirstOrDefaultAsync(x => x.Id == id);
+            var car = _mapper.Map<GetCarVm>(await _context.Cars.FirstOrDefaultAsync(car => car.Id == id));
 
             return car;
         }

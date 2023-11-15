@@ -1,5 +1,6 @@
 ﻿using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.UserRequestModels;
+using MachineWarehouse.Models.Request.UserVm;
 
 namespace MachineWarehouse.Services.UserServices
 {
@@ -7,8 +8,8 @@ namespace MachineWarehouse.Services.UserServices
     {
         public Task<User> CreateUser(CreateUser request);
         public Task UpdateUser(UpdateUser request);
-        public Task<List<User>> GetAllUsers();
-        public Task<User> GetUserByid(int id);
+        public Task<List<GetUsersVm>> GetAllUsers();
+        public Task<GetUserVm> GetUserByid(int id);
         public Task DeleteUser(int id);
     }
 }
