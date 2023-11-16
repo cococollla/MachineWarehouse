@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using MachineWarehouse.Controllers.DtoModels.UserModels;
 using MachineWarehouse.Models.Request.UserRequestModels;
 using MachineWarehouse.Models.Request.UserVm;
+using MachineWarehouse.Profiles.DtoModels.UserModels;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,18 +21,18 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateUser([FromBody] CreateUserDto user)
+        public async Task<ActionResult<int>> CreateUser([FromBody] UserDto user)
         {
-            var command = _mapper.Map<CreateUser>(user);
-            await _userServices.CreateUser(command);
+            var command = _mapper.Map<UserRequests>(user);
+            var userId = await _userServices.CreateUser(command);
 
-            return Ok(command);
+            return Ok(userId.Id);
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateUser([FromBody] UpdateUserDto user)
+        public async Task<ActionResult> UpdateUser([FromBody] UserDto user)
         {
-            var command = _mapper?.Map<UpdateUser>(user);
+            var command = _mapper?.Map<UserRequests>(user);
             command.Id = user.Id;
             await _userServices.UpdateUser(command);
 
@@ -40,7 +40,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserVm>> GetUserById(int id)
+        public async Task<ActionResult<UserVm>> GetUserById(int id)
         {
             var user = await _userServices.GetUserByid(id);
 
@@ -48,7 +48,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GetUsersVm>> GetUsers()
+        public async Task<ActionResult<UserVm>> GetUsers()
         {
             var vm = await _userServices.GetAllUsers();
             return Ok(vm);

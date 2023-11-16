@@ -1,7 +1,8 @@
-﻿namespace MachineWarehouse.Models.Request.CarVm
+﻿namespace MachineWarehouse.Profiles.DtoModels.CarModels
 {
-    public class GetCarVm
+    public class CarDto
     {
+        public int Id { get; set; }
         public int BrandId { get; set; }
         public int ColorId { get; set; }
         public string YearRelese { get; set; }

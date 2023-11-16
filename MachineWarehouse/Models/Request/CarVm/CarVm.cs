@@ -1,6 +1,6 @@
 ﻿namespace MachineWarehouse.Models.Request.CarVm
 {
-    public class GetCarsVm
+    public class CarVm
     {
         public int BrandId { get; set; }
         public int ColorId { get; set; }

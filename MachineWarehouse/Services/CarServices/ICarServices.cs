@@ -8,10 +8,10 @@ namespace MachineWarehouse.Services.CarServices
 {
     public interface ICarServices
     {
-        public Task<Car> AddCar(CreateCar request);
-        public Task<List<GetCarsVm>> GetAllCars();
-        public Task<GetCarVm> GetCarById(int id);
-        public Task UpdateCar(UpdateCar request);
+        public Task<Car> AddCar(CarRequests request);
+        public Task<List<CarVm>> GetAllCars();
+        public Task<CarVm> GetCarById(int id);
+        public Task UpdateCar(CarRequests request);
         public Task DeleteCar(int id);
 
     }

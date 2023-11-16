@@ -1,6 +1,6 @@
 ﻿namespace MachineWarehouse.Models.Request.UserVm
 {
-    public class GetUsersVm
+    public class UserVm
     {
         public string Name { get; set; }
         public string Email { get; set; }

@@ -6,10 +6,10 @@ namespace MachineWarehouse.Services.UserServices
 {
     public interface IUserServices
     {
-        public Task<User> CreateUser(CreateUser request);
-        public Task UpdateUser(UpdateUser request);
-        public Task<List<GetUsersVm>> GetAllUsers();
-        public Task<GetUserVm> GetUserByid(int id);
+        public Task<User> CreateUser(UserRequests request);
+        public Task UpdateUser(UserRequests request);
+        public Task<List<UserVm>> GetAllUsers();
+        public Task<UserVm> GetUserByid(int id);
         public Task DeleteUser(int id);
     }
 }

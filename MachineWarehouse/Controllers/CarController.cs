@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using MachineWarehouse.Controllers.DtoModels.CarModels;
-using MachineWarehouse.Models;
-using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.CarRequestModels;
+using MachineWarehouse.Models.Request.CarVm;
+using MachineWarehouse.Profiles.DtoModels.CarModels;
 using MachineWarehouse.Services.CarServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,33 +21,33 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCars() 
+        public async Task<ActionResult<CarVm>> GetCars() 
         {
             var cars = await _carServices.GetAllCars();
 
-            return Ok();
+            return Ok(cars);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetCar(int id) 
+        public async Task<ActionResult<CarVm>> GetCar(int id) 
         {
-            await _carServices.GetCarById(id);
-            return Ok();
+            var car = await _carServices.GetCarById(id);
+            return Ok(car);
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateCar([FromBody] CreateCarDto car)
+        public async Task<ActionResult<int>> CreateCar([FromBody] CarDto car)
         {
-            var command = _mapper.Map<CreateCar>(car);
+            var command = _mapper.Map<CarRequests>(car);
             var carId = await _carServices.AddCar(command);
 
             return Ok(carId.Id);
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateCar([FromBody] UpdateCarDto car) 
+        public async Task<ActionResult> UpdateCar([FromBody] CarDto car) 
         {
-            var command = _mapper.Map<UpdateCar>(car);
+            var command = _mapper.Map<CarRequests>(car);
             command.Id = car.Id;
             await _carServices.UpdateCar(command);
 

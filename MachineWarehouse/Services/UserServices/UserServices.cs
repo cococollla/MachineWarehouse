@@ -18,16 +18,9 @@ namespace MachineWarehouse.Services.UserServices
             _mapper = mapper;
         }
 
-        public async Task<User> CreateUser(CreateUser request)
+        public async Task<User> CreateUser(UserRequests request)
         {
-            var user = new User
-            {
-                Name = request.Name,
-                Email = request.Email,
-                Login = request.Login,
-                Password = request.Password,
-                RoleId = _context.Roles.FirstOrDefault(role => role.RoleName == request.RoleName).Id,
-            };
+            var user = _mapper.Map<User>(request);
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -39,33 +32,50 @@ namespace MachineWarehouse.Services.UserServices
         {
             var user = await _context.Users.FindAsync(id);
 
+            if(user == null) 
+            {
+                throw new Exception("Пользователь не найден");
+            }
+
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<GetUsersVm>> GetAllUsers()
+        public async Task<List<UserVm>> GetAllUsers()
         {
-            var users = _mapper.Map<List<GetUsersVm>>(await _context.Users.ToListAsync());
+            var users = _mapper.Map<List<UserVm>>(await _context.Users.ToListAsync());
 
             return users;
         }
 
-        public async Task<GetUserVm> GetUserByid(int id)
+        public async Task<UserVm> GetUserByid(int id)
         {
-            var user = _mapper.Map<GetUserVm>(await _context.Users.FirstOrDefaultAsync(user => user.Id == id));
+            var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+
+            if(entity == null)
+            {
+                throw new Exception("Пользоавтель не найден");
+            }
+
+            var user = _mapper.Map<UserVm>(entity);
 
             return user;
         }
 
-        public async Task UpdateUser(UpdateUser request)
+        public async Task UpdateUser(UserRequests request)
         {
             var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == request.Id);
+
+            if(entity == null)
+            {
+                throw new Exception("Пользоавтель не найден");
+            }
 
             entity.Name = request.Name;
             entity.Email = request.Email;
             entity.Login = request.Login;
             entity.Password = request.Password;
-            entity.RoleId = _context.Roles.FirstOrDefault(role => role.Id == request.Id).Id;
+            entity.RoleId = request.RoleId;
 
             await _context.SaveChangesAsync();
         }

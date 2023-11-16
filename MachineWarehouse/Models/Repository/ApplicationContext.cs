@@ -16,11 +16,6 @@ namespace MachineWarehouse.Models.Repository
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=CarWareHousedb;Username=postgres;Password=1234");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(
@@ -30,6 +25,22 @@ namespace MachineWarehouse.Models.Repository
                     new Role {Id = 2, RoleName = "Manager" },
                     new Role {Id = 3, RoleName = "User" }
                 }) ;
+
+            modelBuilder.Entity<CarColor>().HasData(
+                new CarColor[]
+                {
+                    new CarColor {Id = 1, Color = "Red"},
+                    new CarColor {Id = 2, Color = "Blue"},
+                    new CarColor {Id = 3, Color = "Silver"}
+                });
+
+            modelBuilder.Entity<CarBrand>().HasData(
+                new CarBrand[] 
+                { 
+                    new CarBrand {Id = 1, Brand = "BMW"},
+                    new CarBrand {Id = 2, Brand = "Nissan"},
+                    new CarBrand {Id = 3, Brand = "Lexus"}
+                });
         }
     }
 }

@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICarServices, CarServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddDbContext<ApplicationContext>((options => options.UseNpgsql(connection)));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1",
