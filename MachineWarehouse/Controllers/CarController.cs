@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.CarRequestModels;
 using MachineWarehouse.Models.Request.CarVm;
 using MachineWarehouse.Profiles.DtoModels.CarModels;
@@ -18,6 +19,13 @@ namespace MachineWarehouse.Controllers
         {
             _carServices = carServices;
             _mapper = mapper;
+        }
+
+        [Route("index")]
+        public async Task<IActionResult> Index()
+        {
+            var Cars = _mapper.Map<List<Car>>(await _carServices.GetAllCars());
+            return View(Cars);
         }
 
         [HttpGet]

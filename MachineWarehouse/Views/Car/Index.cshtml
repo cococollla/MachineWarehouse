@@ -1,0 +1,16 @@
+﻿@using System.Web
+@model IEnumerable<Car>
+
+<h2>Список автомобилей</h2>
+<table class="table">
+    <tr><th>Брэнд</th><th>Цвет</th><th>Год выпуска</th><th>Стоимость</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.BrandId</td>
+            <td>@item.ColorId</td>
+            <td>@item.YearRelese</td>
+            <td>@item.Price</td>
+        </tr>
+    }
+</table>
