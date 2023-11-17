@@ -1,7 +1,7 @@
 ﻿using MachineWarehouse.Models;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Request.CarRequestModels;
-using MachineWarehouse.Models.Request.CarVm;
+using MachineWarehouse.Models.Request.Car;
+using MachineWarehouse.Models.View.Car;
 using System.Threading.Tasks;
 
 namespace MachineWarehouse.Services.CarServices
@@ -13,6 +13,8 @@ namespace MachineWarehouse.Services.CarServices
         public Task<CarVm> GetCarById(int id);
         public Task UpdateCar(CarRequests request);
         public Task DeleteCar(int id);
+        public Task<List<Brand>> GetBrands();
+        public Task<List<Color>> GetColors();
 
     }
 }

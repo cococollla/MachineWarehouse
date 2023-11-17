@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Request.CarRequestModels;
-using MachineWarehouse.Models.Request.CarVm;
+using MachineWarehouse.Models.Request.Car;
+using MachineWarehouse.Models.View.Car;
 using MachineWarehouse.Profiles.DtoModels.CarModels;
 using MachineWarehouse.Services.CarServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MachineWarehouse.Controllers
 {
@@ -24,8 +25,20 @@ namespace MachineWarehouse.Controllers
         [Route("index")]
         public async Task<IActionResult> Index()
         {
-            var Cars = _mapper.Map<List<Car>>(await _carServices.GetAllCars());
-            return View(Cars);
+            var cars = await _carServices.GetAllCars();
+            return View(cars);
+        }
+
+        [Route("Create")]
+        public async Task<IActionResult> Create()
+        {
+            var brands= await _carServices.GetBrands();
+            ViewBag.Brands = new SelectList(brands, "Id", "Name");
+
+            var colors = await _carServices.GetColors();
+            ViewBag.Colors = new SelectList(colors, "Id", "Name");
+
+            return View();
         }
 
         [HttpGet]
@@ -37,36 +50,44 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarVm>> GetCar(int id) 
+        public async Task<ActionResult<CarVm>> GetCar(int id)
         {
+            var brands = await _carServices.GetBrands();
+            ViewBag.Brands = new SelectList(brands, "Id", "Name");
+
+            var colors = await _carServices.GetColors();
+            ViewBag.Colors = new SelectList(colors, "Id", "Name");
+
             var car = await _carServices.GetCarById(id);
-            return Ok(car);
+            return View(car);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<int>> CreateCar([FromBody] CarDto car)
+        [HttpPost("CreateCar")]
+        public async Task<ActionResult<int>> CreateCar([FromForm] CarDto car)
         {
             var command = _mapper.Map<CarRequests>(car);
-            var carId = await _carServices.AddCar(command);
+            await _carServices.AddCar(command);
 
-            return Ok(carId.Id);
+            return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateCar([FromBody] CarDto car) 
+
+        [HttpPost("UpdateCar")]
+        public async Task<ActionResult> UpdateCar([FromForm] CarDto car) 
         {
             var command = _mapper.Map<CarRequests>(car);
             command.Id = car.Id;
             await _carServices.UpdateCar(command);
 
-            return NoContent();
+            return RedirectToAction("Index");
         }
 
-        [HttpDelete("{id}")]
+        [HttpPost("DeleteCar")]
         public async Task<ActionResult> DeleteCar(int id) 
         {
             await _carServices.DeleteCar(id);
-            return Ok();
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.UserRequestModels;
-using MachineWarehouse.Models.Request.UserVm;
+using MachineWarehouse.Models.View.User;
 using MachineWarehouse.Profiles.DtoModels.UserModels;
 
 namespace MachineWarehouse.Controllers.Profiles

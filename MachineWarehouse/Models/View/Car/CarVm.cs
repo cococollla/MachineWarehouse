@@ -1,7 +1,8 @@
-﻿namespace MachineWarehouse.Models.Request.CarVm
+﻿namespace MachineWarehouse.Models.View.Car
 {
     public class CarVm
     {
+        public int Id { get; set; }
         public int BrandId { get; set; }
         public int ColorId { get; set; }
         public string ColorName { get; set; }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Repository;
 using MachineWarehouse.Models.Request.UserRequestModels;
-using MachineWarehouse.Models.Request.UserVm;
+using MachineWarehouse.Models.View.User;
+using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.UserServices

@@ -1,4 +1,4 @@
-using MachineWarehouse.Models.Repository;
+using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.MapControllers();
 app.UseRouting();
 
 app.UseAuthorization();

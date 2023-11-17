@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Request.UserRequestModels;
-using MachineWarehouse.Models.Request.UserVm;
+using MachineWarehouse.Models.View.User;
 using MachineWarehouse.Profiles.DtoModels.UserModels;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;

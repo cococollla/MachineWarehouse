@@ -1,16 +1,34 @@
 ﻿@using System.Web
-@model IEnumerable<Car>
-
-<h2>Список автомобилей</h2>
-<table class="table">
-    <tr><th>Брэнд</th><th>Цвет</th><th>Год выпуска</th><th>Стоимость</th></tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.BrandId</td>
-            <td>@item.ColorId</td>
-            <td>@item.YearRelese</td>
-            <td>@item.Price</td>
-        </tr>
-    }
-</table>
+@model IEnumerable<CarVm>
+<div>
+    <form asp-action="Create">
+        <input type="submit" value="Create" />
+    </form>
+</div>
+<div>
+    <h2>Car list</h2>
+    <div>
+        <table class="table">
+            <tr><th>Brand</th><th>Color</th><th>Year of release</th><th>Price</th></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BrandName</td>
+                    <td>@item.ColorName</td>
+                    <td>@item.YearRelese</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <form asp-controller="Car" asp-action="GetCar" method="get" asp-route-id="@item.Id">
+                           <button type="submit">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="Car" method="post" asp-action="DeleteCar" asp-route-id="@item.Id">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

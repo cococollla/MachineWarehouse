@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Repository;
-using MachineWarehouse.Models.Request.CarRequestModels;
-using MachineWarehouse.Models.Request.CarVm;
+using MachineWarehouse.Models.Request.Car;
+using MachineWarehouse.Models.View.Car;
+using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.CarServices
@@ -43,14 +43,15 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<List<CarVm>> GetAllCars()
         {
-            var cars =  _mapper.Map<List<CarVm>>(await _context.Cars.ToListAsync());
+            var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
+            var result = _mapper.Map<List<CarVm>>(cars); 
 
-            return cars;
+            return result;
         }
 
         public async Task<CarVm> GetCarById(int id)
         {
-            var entity = await _context.Cars.FirstOrDefaultAsync(car => car.Id == id);
+            var entity = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
 
             if (entity == null) 
             {
@@ -78,6 +79,20 @@ namespace MachineWarehouse.Services.CarServices
             entity.ColorId = request.ColorId;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Brand>> GetBrands()
+        {
+            List<Brand> roles = await _context.Brands.ToListAsync();
+
+            return roles;
+        }
+
+        public async Task<List<Color>> GetColors()
+        {
+            List<Color> colors = await _context.Colors.ToListAsync();
+
+            return colors;
         }
     }
 }

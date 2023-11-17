@@ -1,0 +1,36 @@
+﻿@using System.Web
+@model CarVm
+
+<h2>Edit car</h2>
+<form asp-action="UpdateCar" asp-controller="Car">
+    <div>
+        <input asp-for="Id" hidden="hidden"/>
+        <div>
+            <label asp-for="BrandId"></label>
+            <select asp-for="BrandId" asp-items="ViewBag.Brands">
+                <option selected="@Model.BrandName">@Model.BrandName</option>
+            </select>
+        </div>
+        <div>
+            <label asp-for="ColorId"></label>
+            <select asp-for="ColorId" asp-items="ViewBag.Colors">
+                <option selected="@Model.ColorName">@Model.ColorName</option>
+            </select>
+        </div>
+        <div>
+            <label asp-for="Price">Price</label><br />
+            <input asp-for="Price" />
+        </div>
+        <div>
+            <label asp-for="YearRelese">Year of release</label><br />
+            <input asp-for="YearRelese" />
+        </div>
+        <div>
+            <label asp-for="ShorDescription">Short discription</label><br />
+            <input asp-for="ShorDescription" />
+        </div>
+        <div>
+            <button type="submit">Edit</button>
+        </div>
+    </div>
+</form>

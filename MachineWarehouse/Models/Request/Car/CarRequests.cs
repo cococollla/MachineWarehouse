@@ -1,4 +1,4 @@
-﻿namespace MachineWarehouse.Models.Request.CarRequestModels
+﻿namespace MachineWarehouse.Models.Request.Car
 {
     public class CarRequests
     {

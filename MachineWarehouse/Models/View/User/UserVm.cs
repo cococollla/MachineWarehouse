@@ -1,4 +1,4 @@
-﻿namespace MachineWarehouse.Models.Request.UserVm
+﻿namespace MachineWarehouse.Models.View.User
 {
     public class UserVm
     {

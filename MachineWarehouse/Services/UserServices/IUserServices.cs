@@ -1,6 +1,6 @@
 ﻿using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.UserRequestModels;
-using MachineWarehouse.Models.Request.UserVm;
+using MachineWarehouse.Models.View.User;
 
 namespace MachineWarehouse.Services.UserServices
 {
