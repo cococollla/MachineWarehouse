@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Request.Car;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Profiles.DtoModels.CarModels;
 using MachineWarehouse.Services.CarServices;
@@ -25,7 +25,9 @@ namespace MachineWarehouse.Controllers
         [Route("index")]
         public async Task<IActionResult> Index()
         {
-            var cars = await _carServices.GetAllCars();
+            var query = await _carServices.GetAllCars();
+            var cars = _mapper.Map<List<CarVm>>(query);
+
             return View(cars);
         }
 
@@ -42,9 +44,10 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<CarVm>> GetCars() 
+        public async Task<ActionResult<List<CarVm>>> GetCars() 
         {
-            var cars = await _carServices.GetAllCars();
+            var query = await _carServices.GetAllCars();
+            var cars = _mapper.Map<List<CarVm>>(query);
 
             return Ok(cars);
         }
@@ -58,14 +61,16 @@ namespace MachineWarehouse.Controllers
             var colors = await _carServices.GetColors();
             ViewBag.Colors = new SelectList(colors, "Id", "Name");
 
-            var car = await _carServices.GetCarById(id);
+            var query = await _carServices.GetCarById(id);
+            var car = _mapper.Map<CarVm>(query);
+
             return View(car);
         }
 
         [HttpPost("CreateCar")]
         public async Task<ActionResult> CreateCar([FromForm] CarDto car)
         {
-            var command = _mapper.Map<CarRequests>(car);
+            var command = _mapper.Map<Car>(car);
             await _carServices.AddCar(command);
 
             return RedirectToAction("Index");
@@ -75,7 +80,7 @@ namespace MachineWarehouse.Controllers
         [HttpPost("UpdateCar")]
         public async Task<ActionResult> UpdateCar([FromForm] CarDto car) 
         {
-            var command = _mapper.Map<CarRequests>(car);
+            var command = _mapper.Map<Car>(car);
             command.Id = car.Id;
             await _carServices.UpdateCar(command);
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Request.UserRequestModels;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -18,14 +17,12 @@ namespace MachineWarehouse.Services.UserServices
             _mapper = mapper;
         }
 
-        public async Task<User> CreateUser(UserRequests request)
+        public async Task<User> CreateUser(User request)
         {
-            var user = _mapper.Map<User>(request);
-
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(request);
             await _context.SaveChangesAsync();
 
-            return user;
+            return request;
         }
 
         public async Task DeleteUser(int id)
@@ -41,29 +38,26 @@ namespace MachineWarehouse.Services.UserServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<UserVm>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            var entity = await _context.Users.Include(u => u.Role).ToListAsync();
-            var users = _mapper.Map<List<UserVm>>(entity);
+            var users = await _context.Users.Include(u => u.Role).ToListAsync();
 
             return users;
         }
 
-        public async Task<UserVm> GetUserByid(int id)
+        public async Task<User> GetUserByid(int id)
         {
-            var entity = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == id);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == id);
 
-            if(entity == null)
+            if(user == null)
             {
                 throw new Exception("Пользоавтель не найден");
             }
 
-            var user = _mapper.Map<UserVm>(entity);
-
             return user;
         }
 
-        public async Task UpdateUser(UserRequests request)
+        public async Task UpdateUser(User request)
         {
             var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == request.Id);
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.Request.Car;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ namespace MachineWarehouse.Services.CarServices
             _mapper = mapper;
         }
 
-        public async Task<Car> AddCar(CarRequests request)
+        public async Task<Car> AddCar(Car request)
         {
             var car = _mapper.Map<Car>(request);
 
@@ -41,29 +40,26 @@ namespace MachineWarehouse.Services.CarServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<CarVm>> GetAllCars()
+        public async Task<List<Car>> GetAllCars()
         {
-            var entity = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
-            var cars = _mapper.Map<List<CarVm>>(entity); 
+            var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
 
             return cars;
         }
 
-        public async Task<CarVm> GetCarById(int id)
+        public async Task<Car> GetCarById(int id)
         {
-            var entity = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
+            var car = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
 
-            if (entity == null) 
+            if (car == null) 
             {
                 throw new Exception("Автомобиль не найден");
             }
 
-            var car = _mapper.Map<CarVm>(entity);
-
             return car;
         }
 
-        public async Task UpdateCar(CarRequests request)
+        public async Task UpdateCar(Car request)
         {
             var entity = await _context.Cars.FirstOrDefaultAsync(car => car.Id == request.Id);
 
