@@ -43,10 +43,10 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<List<CarVm>> GetAllCars()
         {
-            var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
-            var result = _mapper.Map<List<CarVm>>(cars); 
+            var entity = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
+            var cars = _mapper.Map<List<CarVm>>(entity); 
 
-            return result;
+            return cars;
         }
 
         public async Task<CarVm> GetCarById(int id)
@@ -83,9 +83,9 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<List<Brand>> GetBrands()
         {
-            List<Brand> roles = await _context.Brands.ToListAsync();
+            List<Brand> brands = await _context.Brands.ToListAsync();
 
-            return roles;
+            return brands;
         }
 
         public async Task<List<Color>> GetColors()

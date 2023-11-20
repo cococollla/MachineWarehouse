@@ -1,0 +1,39 @@
+﻿@using System.Web
+@model IEnumerable<UserVm>
+<div>
+    <form asp-action="Index" asp-controller="Car">
+        <input type="submit" value="Chek cars" />
+    </form>
+</div>
+<div>
+    <form asp-action="Create" asp-controller="User">
+        <input type="submit" value="Create user" />
+    </form>
+</div>
+<div>
+    <h2>User list</h2>
+    <div>
+        <table class="table">
+            <tr><th>Role</th><th>Name</th><th>Login</th><th>Password</th></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Role</td>
+                    <td>@item.Name</td>
+                    <td>@item.Login</td>
+                    <td>@item.Password</td>
+                    <td>
+                        <form asp-controller="User" asp-action="GetUser" method="get" asp-route-id="@item.Id">
+                            <button type="submit">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="User" method="post" asp-action="Deleteuser" asp-route-id="@item.Id">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

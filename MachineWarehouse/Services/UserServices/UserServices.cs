@@ -43,14 +43,15 @@ namespace MachineWarehouse.Services.UserServices
 
         public async Task<List<UserVm>> GetAllUsers()
         {
-            var users = _mapper.Map<List<UserVm>>(await _context.Users.ToListAsync());
+            var entity = await _context.Users.Include(u => u.Role).ToListAsync();
+            var users = _mapper.Map<List<UserVm>>(entity);
 
             return users;
         }
 
         public async Task<UserVm> GetUserByid(int id)
         {
-            var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+            var entity = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == id);
 
             if(entity == null)
             {
@@ -78,6 +79,13 @@ namespace MachineWarehouse.Services.UserServices
             entity.RoleId = request.RoleId;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Role>> GetRoles()
+        {
+            List<Role> roles = await _context.Roles.ToListAsync();
+
+            return roles;
         }
     }
 }

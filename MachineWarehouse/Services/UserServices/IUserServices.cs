@@ -11,5 +11,6 @@ namespace MachineWarehouse.Services.UserServices
         public Task<List<UserVm>> GetAllUsers();
         public Task<UserVm> GetUserByid(int id);
         public Task DeleteUser(int id);
+        public Task<List<Role>> GetRoles();
     }
 }

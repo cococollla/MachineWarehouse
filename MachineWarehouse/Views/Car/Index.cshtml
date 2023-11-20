@@ -1,8 +1,13 @@
 ﻿@using System.Web
 @model IEnumerable<CarVm>
 <div>
-    <form asp-action="Create">
-        <input type="submit" value="Create" />
+    <form asp-action="Create" asp-controller="Car">
+        <input type="submit" value="Create car" />
+    </form>
+</div>
+<div>
+    <form asp-action="Index" asp-controller="User">
+        <input type="submit" value="Chek users" />
     </form>
 </div>
 <div>

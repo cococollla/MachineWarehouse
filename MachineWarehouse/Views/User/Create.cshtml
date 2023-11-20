@@ -1,0 +1,32 @@
+﻿@using System.Web
+@model UserDto
+
+
+<h2>Create user</h2>
+<form asp-action="CreateUser" asp-controller="User" method="post">
+    <div>
+        <div>
+            <label asp-for="RoleId"></label>
+            <select asp-for="RoleId" asp-items="ViewBag.Roles"></select>
+        </div>
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+        </div>
+        <div>
+            <label asp-for="Email">Email</label><br />
+            <input asp-for="Email" />
+        </div>
+        <div>
+            <label asp-for="Login">Login</label><br />
+            <input asp-for="Login" />
+        </div>
+        <div>
+            <label asp-for="Password">Password</label><br />
+            <input asp-for="Password" />
+        </div>
+        <div>
+            <button type="submit">Create</button>
+        </div>
+    </div>
+</form>

@@ -4,6 +4,7 @@ using MachineWarehouse.Models.View.User;
 using MachineWarehouse.Profiles.DtoModels.UserModels;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MachineWarehouse.Controllers
 {
@@ -20,31 +21,48 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<int>> CreateUser([FromBody] UserDto user)
+        [Route("index")]
+        public async Task<IActionResult> Index()
+        {
+            var users = await _userServices.GetAllUsers();
+            return View(users);
+        }
+
+        [Route("Create")]
+        public async Task<IActionResult> Create()
+        {
+            var roles = await _userServices.GetRoles();
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost("CreateUser")]
+        public async Task<ActionResult> CreateUser([FromForm] UserDto user)
         {
             var command = _mapper.Map<UserRequests>(user);
             var userId = await _userServices.CreateUser(command);
 
-            return Ok(userId.Id);
+            return RedirectToAction("Index");
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateUser([FromBody] UserDto user)
+        [HttpPost("UpdateUser")]
+        public async Task<ActionResult> UpdateUser([FromForm] UserDto user)
         {
-            var command = _mapper?.Map<UserRequests>(user);
-            command.Id = user.Id;
+            var command = _mapper.Map<UserRequests>(user);
             await _userServices.UpdateUser(command);
 
-            return NoContent();
+            return RedirectToAction("Index");
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserVm>> GetUserById(int id)
+        public async Task<ActionResult<UserVm>> GetUser(int id)
         {
+            var roles = await _userServices.GetRoles();
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
             var user = await _userServices.GetUserByid(id);
 
-            return Ok(user);
+            return View(user);
         }
 
         [HttpGet]
@@ -54,11 +72,11 @@ namespace MachineWarehouse.Controllers
             return Ok(vm);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpPost("DeleteUser")]
+        public async Task<ActionResult> DeleteUser(int id)
         {
             await _userServices.DeleteUser(id);
-            return NoContent();
+            return RedirectToAction("Index");
         }
     }
 }

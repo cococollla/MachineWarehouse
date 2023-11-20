@@ -63,7 +63,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("CreateCar")]
-        public async Task<ActionResult<int>> CreateCar([FromForm] CarDto car)
+        public async Task<ActionResult> CreateCar([FromForm] CarDto car)
         {
             var command = _mapper.Map<CarRequests>(car);
             await _carServices.AddCar(command);
