@@ -6,6 +6,6 @@ namespace MachineWarehouse.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly 
+
     }
 }

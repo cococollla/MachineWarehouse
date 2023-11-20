@@ -1,4 +1,4 @@
-﻿namespace MachineWarehouse.Models.View.Car
+﻿namespace MachineWarehouse.Models.View
 {
     public class CarVm
     {

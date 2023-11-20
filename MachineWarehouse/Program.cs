@@ -2,6 +2,7 @@ using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
@@ -25,6 +26,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 });
+
 
 
 var app = builder.Build();

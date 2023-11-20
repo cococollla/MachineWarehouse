@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MachineWarehouse.Models.DtoModels.CarModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.Car;
 using MachineWarehouse.Models.View;
+using MachineWarehouse.Profiles.DtoModels.CarModels;
 using MachineWarehouse.Services.CarServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
