@@ -1,9 +1,10 @@
 ﻿using MachineWarehouse.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Repository
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
