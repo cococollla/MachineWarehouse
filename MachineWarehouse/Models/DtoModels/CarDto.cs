@@ -1,4 +1,4 @@
-﻿namespace MachineWarehouse.Profiles.DtoModels.CarModels
+﻿namespace MachineWarehouse.Profiles.DtoModels
 {
     public class CarDto
     {
