@@ -1,4 +1,4 @@
-﻿namespace MachineWarehouse.Profiles.DtoModels.UserModels
+﻿namespace MachineWarehouse.Models.DtoModels.UserModels
 {
     public class UserDto
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Models.DtoModels.CarModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.Car;
-using MachineWarehouse.Models.View.Car;
-using MachineWarehouse.Profiles.DtoModels.CarModels;
+using MachineWarehouse.Models.View;
 
 namespace MachineWarehouse.Controllers.Profiles
 {

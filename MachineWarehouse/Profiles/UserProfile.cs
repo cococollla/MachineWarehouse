@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Models.DtoModels.UserModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.UserRequestModels;
-using MachineWarehouse.Models.View.User;
-using MachineWarehouse.Profiles.DtoModels.UserModels;
+using MachineWarehouse.Models.View;
 
 namespace MachineWarehouse.Controllers.Profiles
 {

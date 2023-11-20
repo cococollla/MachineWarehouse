@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Request.Car;
-using MachineWarehouse.Models.View.Car;
+using MachineWarehouse.Models.View;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
 
