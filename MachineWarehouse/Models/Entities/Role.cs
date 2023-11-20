@@ -2,7 +2,7 @@
 
 namespace MachineWarehouse.Models.Entities
 {
-    public class Role : IdentityRole<int>
+    public class Role
     {
         public int Id { get; set; }
         public string Name { get; set; }

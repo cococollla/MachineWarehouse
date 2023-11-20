@@ -2,7 +2,7 @@
 
 namespace MachineWarehouse.Models.Entities
 {
-    public class User : IdentityUser<int>
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,6 +11,5 @@ namespace MachineWarehouse.Models.Entities
         public string Password { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
-        public string? RefreshToken {  get; set; } 
     }
 }

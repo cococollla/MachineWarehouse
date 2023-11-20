@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Repository
 {
-    public class ApplicationContext : IdentityDbContext<User, Role, int>
+    public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
