@@ -7,14 +7,12 @@
         <input asp-for="Id" hidden="hidden"/>
         <div>
             <label asp-for="BrandId"></label>
-            <select asp-for="BrandId" asp-items="ViewBag.Brands">
-                <option selected="@Model.BrandName">@Model.BrandName</option>
+            <select asp-for="BrandId" asp-items="ViewBag.Brands" onselect="@Model.BrandName">
             </select>
         </div>
         <div>
             <label asp-for="ColorId"></label>
-            <select asp-for="ColorId" asp-items="ViewBag.Colors">
-                <option selected="@Model.ColorName">@Model.ColorName</option>
+            <select asp-for="ColorId" asp-items="ViewBag.Colors" onselect="@Model.ColorName">
             </select>
         </div>
         <div>
