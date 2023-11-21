@@ -24,14 +24,6 @@ namespace MachineWarehouse.Controllers.Profiles
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(user => user.Password))
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(user => user.Login))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(user => user.Role.Name));
-
-            CreateMap<UserVm, UserDto>()
-                 .ForMember(dest => dest.Id, opt => opt.MapFrom(userVm => userVm.Id))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(userVm => userVm.Email))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(userVm => userVm.Name))
-                .ForMember(dest => dest.Login, opt => opt.MapFrom(userVm => userVm.Login))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(userVm => userVm.Password))
-                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(userVm => userVm.RoleId));
         }
     }
 }

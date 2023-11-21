@@ -26,14 +26,6 @@ namespace MachineWarehouse.Controllers.Profiles
                 .ForMember(dest => dest.ColorName, opt => opt.MapFrom(car => car.Color.Name))
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(car => car.Brand.Name))
                 .ForMember(dest => dest.ShorDescription, opt => opt.MapFrom(car => car.ShorDescription)).ReverseMap();
-
-            CreateMap<CarVm, CarDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(carVm => carVm.Id))
-                .ForMember(dest => dest.BrandId, opt => opt.MapFrom(carVm => carVm.BrandId))
-                .ForMember(dest => dest.ColorId, opt => opt.MapFrom(carVm => carVm.ColorId))
-                .ForMember(dest => dest.YearRelese, opt => opt.MapFrom(carVm => carVm.YearRelese))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(carVm => carVm.Price))
-                .ForMember(dest => dest.ShorDescription, opt => opt.MapFrom(carVm => carVm.ShorDescription));
         }
     }
 }

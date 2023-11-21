@@ -22,9 +22,9 @@ namespace MachineWarehouse.Repository
             modelBuilder.Entity<Role>().HasData(
                 new Role[]
                 {
-                    new Role {Id = 1, Name = "Admin" },
-                    new Role {Id = 2, Name = "Manager" },
-                    new Role {Id = 3, Name = "User" }
+                    new Role {Id = 1, Name = "Admin"},
+                    new Role {Id = 2, Name = "Manager"},
+                    new Role {Id = 3, Name = "User"}
                 });
 
             modelBuilder.Entity<Color>().HasData(

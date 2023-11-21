@@ -33,7 +33,7 @@ namespace MachineWarehouse.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
-            var brands= await _carServices.GetBrands();
+            var brands = await _carServices.GetBrands();
             ViewBag.Brands = new SelectList(brands, "Id", "Name");
 
             var colors = await _carServices.GetColors();
