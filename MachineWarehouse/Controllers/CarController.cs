@@ -80,7 +80,6 @@ namespace MachineWarehouse.Controllers
         public async Task<ActionResult> UpdateCar([FromForm] CarDto car) 
         {
             var command = _mapper.Map<Car>(car);
-            command.Id = car.Id;
             await _carServices.UpdateCar(command);
 
             return RedirectToAction("Index");

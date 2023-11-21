@@ -31,7 +31,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var car = await _context.Cars.FindAsync(id);
 
-            if(car == null) 
+            if( car == null ) 
             {
                 throw new Exception("Автомобиль не найден");
             }
@@ -51,7 +51,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var car = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
 
-            if (car == null) 
+            if ( car == null ) 
             {
                 throw new Exception("Автомобиль не найден");
             }
@@ -63,7 +63,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var entity = await _context.Cars.FirstOrDefaultAsync(car => car.Id == request.Id);
 
-            if (entity == null) 
+            if ( entity == null ) 
             {
                 throw new Exception("Автомобиль не найден");
             }

@@ -81,5 +81,10 @@ namespace MachineWarehouse.Services.UserServices
 
             return roles;
         }
+
+        public async Task<bool> IsExistUser(string login)
+        {
+            return await _context.Users.AnyAsync(user => user.Login == login); 
+        }
     }
 }

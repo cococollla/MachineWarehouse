@@ -1,9 +1,15 @@
+
 using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
+using MachineWarehouse.Services.Contracts;
+using MachineWarehouse.Services.Implementations;
+using MachineWarehouse.Services.Options;
 using MachineWarehouse.Services.UserServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +20,27 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICarServices, CarServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+
+            ValidIssuer = AuthOptions.Issuer,
+            ValidAudience = AuthOptions.Audience,
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = false,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+    builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1",
     new Microsoft.OpenApi.Models.OpenApiInfo
@@ -46,6 +70,7 @@ app.UseStaticFiles();
 app.MapControllers();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>

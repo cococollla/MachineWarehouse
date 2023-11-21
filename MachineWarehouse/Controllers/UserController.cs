@@ -21,7 +21,7 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
-        [Route("index")]
+        [Route("Index")]
         public async Task<IActionResult> Index()
         {
             var query = await _userServices.GetAllUsers();
@@ -43,7 +43,7 @@ namespace MachineWarehouse.Controllers
         public async Task<ActionResult> CreateUser([FromForm] UserDto user)
         {
             var command = _mapper.Map<User>(user);
-            var userId = await _userServices.CreateUser(command);
+            await _userServices.CreateUser(command);
 
             return RedirectToAction("Index");
         }

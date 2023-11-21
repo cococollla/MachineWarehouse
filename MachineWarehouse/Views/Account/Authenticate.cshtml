@@ -1,0 +1,31 @@
+﻿@using System.Web
+@model UserDto
+
+<div>
+    <form asp-action="Registration" asp-controller="Account" method="get">
+        <input type="submit" value="Registration" />
+    </form>
+    <form asp-action="Authenticate" asp-controller="Account" method="post">
+        <div>
+            <div>
+                <label asp-for="Name">Name</label><br />
+                <input asp-for="Name" />
+            </div>
+            <div>
+                <label asp-for="Email">Email</label><br />
+                <input asp-for="Email" />
+            </div>
+            <div>
+                <label asp-for="Login">Login</label><br />
+                <input asp-for="Login" />
+            </div>
+            <div>
+                <label asp-for="Password">Password</label><br />
+                <input asp-for="Password" />
+            </div>
+            <div>
+                <button type="submit">Log in</button>
+            </div>
+        </div>
+    </form>
+</div>

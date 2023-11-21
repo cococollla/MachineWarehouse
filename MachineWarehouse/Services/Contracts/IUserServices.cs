@@ -11,5 +11,6 @@ namespace MachineWarehouse.Services.UserServices
         public Task<User> GetUserByid(int id);
         public Task DeleteUser(int id);
         public Task<List<Role>> GetRoles();
+        public Task<bool> IsExistUser(string login);
     }
 }
