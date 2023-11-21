@@ -48,6 +48,8 @@ namespace MachineWarehouse.Controllers
                 Login = user.Login,
                 Token = token,
             });
+
+            //return Results.Json(token);
         }
 
 

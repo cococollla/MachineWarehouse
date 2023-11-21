@@ -3,7 +3,7 @@
     "MachineWarehouse": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/Car/Index",
+      "launchUrl": "api/Account/Authenticate",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
