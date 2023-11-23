@@ -3,6 +3,7 @@ using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.CarServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -21,7 +22,8 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
-        [Route("index")]
+        [Authorize]
+        [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
             var query = await _carServices.GetAllCars();
@@ -30,7 +32,8 @@ namespace MachineWarehouse.Controllers
             return View(cars);
         }
 
-        [Route("Create")]
+        [Authorize]
+        [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
             var brands = await _carServices.GetBrands();

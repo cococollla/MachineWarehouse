@@ -57,6 +57,18 @@ namespace MachineWarehouse.Services.UserServices
             return user;
         }
 
+        public async Task<User> GetUserByName(string name)
+        {
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Name == name);
+
+            if (user == null)
+            {
+                throw new Exception("Пользоавтель не найден");
+            }
+
+            return user;
+        }
+
         public async Task UpdateUser(User request)
         {
             var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == request.Id);

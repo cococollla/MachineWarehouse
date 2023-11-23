@@ -5,27 +5,30 @@
     <form asp-action="Registration" asp-controller="Account" method="get">
         <input type="submit" value="Registration" />
     </form>
-    <form asp-action="Authenticate" asp-controller="Account" method="post">
+    <form asp-action="Authenticate" asp-controller="Account" method="post" id="AuthForm">
         <div>
             <div>
                 <label asp-for="Name">Name</label><br />
-                <input asp-for="Name" />
+                <input asp-for="Name" id="name"/>
             </div>
             <div>
                 <label asp-for="Email">Email</label><br />
-                <input asp-for="Email" />
+                <input asp-for="Email" id="email" />
             </div>
             <div>
                 <label asp-for="Login">Login</label><br />
-                <input asp-for="Login" />
+                <input asp-for="Login" id="login"/>
             </div>
             <div>
                 <label asp-for="Password">Password</label><br />
-                <input asp-for="Password" />
+                <input asp-for="Password" id="password"/>
             </div>
             <div>
-                <button type="submit">Log in</button>
+                <button type="submit" id="submitLogin">Log in</button>
             </div>
         </div>
     </form>
 </div>
+<script src="~/js/LoginScript.js"></script>
+
+

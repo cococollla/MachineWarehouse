@@ -2,6 +2,7 @@
 using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.Identuty;
+using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.Contracts;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,22 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("Token")]
+        public async Task<IResult> GetToken(UserDto user)
+        {
+            var command = await _userService.GetUserByName(user.Name);
+            var findUser = _mapper.Map<UserVm>(command);
+            var token = _tokenService.CreateToken(findUser.Role);
+
+            var response = new AuthResponse
+            {
+                Role = findUser.Role,
+                Token = token,
+            };
+
+            return Results.Json(response);
+        }
+
         [HttpGet("Authenticate")]
         public IActionResult Authenticate()
         {
@@ -30,26 +47,28 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("Authenticate")]
-        public async Task<ActionResult> Authenticate([FromForm] UserDto user)
+        public async Task<IResult> Authenticate([FromForm] UserDto user)
         {
             var isExist = await _userService.IsExistUser(user.Login);
-            var command = _mapper.Map<User>(user);
 
             if (!isExist)
             {
-                return RedirectToAction("Registration");
+                //return RedirectToAction("Registration");
+                return Results.BadRequest("User not exist");
             }
 
-            var token = _tokenService.CreateToken(command);
+            var command = await _userService.GetUserByName(user.Name);
+            var findUser = _mapper.Map<UserVm>(command);
+            var token = _tokenService.CreateToken(findUser.Role);
 
-            return Ok(new AuthResponse
+            var response = new AuthResponse
             {
-                Name = user.Name,
-                Login = user.Login,
+                Role = findUser.Role,
                 Token = token,
-            });
+            };
 
-            //return Results.Json(token);
+            //return RedirectToAction("Index", "Car");
+            return Results.Json(response);
         }
 
 

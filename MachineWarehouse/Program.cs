@@ -1,4 +1,3 @@
-
 using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
 using MachineWarehouse.Services.Contracts;
@@ -13,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
@@ -26,6 +26,7 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(c
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
 
@@ -39,7 +40,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = false,
             ClockSkew = TimeSpan.Zero
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+
     });
+
     builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1",
@@ -49,6 +64,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         Description = "Demo API for showing Swagger",
         Version = "v1"
     });
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("*")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
 });
 
 
@@ -63,12 +88,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
-
-app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapControllers();
 app.UseRouting();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -86,5 +110,5 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "";
 });
 
-
+app.UseCors(MyAllowSpecificOrigins);
 app.Run();

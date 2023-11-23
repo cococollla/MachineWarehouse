@@ -8,6 +8,7 @@ namespace MachineWarehouse.Services.Options
         public const string Issuer = "http://localhost:7000";
         public const string Audience = "http://localhost:7001";
         private const string Key = "carsupersecret_secretkey!123";
+        public const int Lifetime = 1;
 
         public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
