@@ -5,6 +5,7 @@ using MachineWarehouse.Models.Identuty;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.Contracts;
 using MachineWarehouse.Services.UserServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MachineWarehouse.Controllers
@@ -44,6 +45,13 @@ namespace MachineWarehouse.Controllers
         public IActionResult Authenticate()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpGet("~/Oauth/Success")]
+        public void Oauth()
+        {
+            Response.Redirect("api/Car/Index");
         }
 
         [HttpPost("Authenticate")]
