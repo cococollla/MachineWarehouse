@@ -1,3 +1,4 @@
+using MachineWarehouse.Middlewares;
 using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
 using MachineWarehouse.Services.Contracts;
@@ -55,26 +56,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
     });
 
-    builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1",
-    new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Swagger Demo API",
-        Description = "Demo API for showing Swagger",
-        Version = "v1"
-    });
-});
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("*")
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-        });
-});
+
+
 
 
 
@@ -88,27 +71,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.MapControllers();
-app.UseRouting();
-app.UseHttpsRedirection();
+
+app.UseMiddleware<JwtHeaderMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
 
-app.UseSwagger();
 
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
-    options.RoutePrefix = "";
-});
-
-app.UseCors(MyAllowSpecificOrigins);
 app.Run();

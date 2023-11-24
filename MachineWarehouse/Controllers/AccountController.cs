@@ -33,8 +33,8 @@ namespace MachineWarehouse.Controllers
 
             var response = new AuthResponse
             {
-                Role = findUser.Role,
-                Token = token,
+                role = findUser.Role,
+                accessToken = token,
             };
 
             return Results.Json(response);
@@ -63,8 +63,8 @@ namespace MachineWarehouse.Controllers
 
             var response = new AuthResponse
             {
-                Role = findUser.Role,
-                Token = token,
+                role = findUser.Role,
+                accessToken = token,
             };
 
             //return RedirectToAction("Index", "Car");

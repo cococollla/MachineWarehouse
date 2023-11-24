@@ -2,7 +2,7 @@
 {
     public class AuthResponse
     {
-        public string Role { get; set; }
-        public string Token { get; set; }
+        public string role { get; set; }
+        public string accessToken { get; set; }
     }
 }

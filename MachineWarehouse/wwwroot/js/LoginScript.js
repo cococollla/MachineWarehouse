@@ -1,8 +1,3 @@
-const channelTokenBroadcast = new BroadcastChannel('channelToken');
-channelTokenBroadcast.onmessage = function (event) {
-    localStorage.removeItem(event.data.item);
-}
-
 var tokenKey = "accessToken";
 
 document.getElementById("submitLogin").addEventListener("click", async e => {
@@ -19,29 +14,32 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
         headers: { "Accept": "application/json" },
         body: formData
     });
-    var data = await response.text();
-    var data = data.replace(new RegExp("\"", 'g'), "");
+    var data = await response.json();
     console.log(response);
-    console.log(data);
+    console.log(data.value.accessToken);
 
     if (response.ok === true) {
-        var rediractUrl = "https://localhost:7001/api/Car/Index";
-        var accessToken = "Bearer " + data.Token;
-        //localStorage.setItem(tokenKey, accessToken);
-        //channelTokenBroadcast.postMessage({ accessToken: accessToken });
+        var redirectUrl = "https://localhost:7001/api/Car/Index";
 
-        //window.location.href = "https://localhost:7001/api/Car/Index";
-
-        fetch(rediractUrl,
-            {
-                headers: {
-                    'Authorization': accessToken
-                }
-            })
-            .then(() => {
-                window.location.replace("https://localhost:7001/api/Car/Index");
+        localStorage.setItem(tokenKey, data.value.accessToken);
+        var token = localStorage.getItem(tokenKey);
+        console.log(token);
+        var accessToken = "Bearer " + token;
+        document.cookie = `accessToken=${token}`;
+        localStorage.setItem('role', data.value.role);
+        //console.log(accessToken);
+        //window.location.href = redirectUrl;
+        const response1 = await fetch(redirectUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': accessToken,
+                'Content-Type': 'application/json'
+            }
         });
 
+        var data1 = response1.json();        
+        console.log(data1);
+        console.log("bye");
     }
 });
 
@@ -49,7 +47,7 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
 //    const form = document.querySelector('#AuthForm');
 
 //    form.addEventListener('submit', function () {
-//        fetch("api/Account/Token", {
+//        fetch(form.action, {
 //            method: form.method,
 //            body: new FormData(form)
 //        })
@@ -62,9 +60,10 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
 //            })
 //            .then(data => {
 //                if (data != '') {
-//                    sessionStorage.setItem("Token", data.Token);
+//                    document.cookie = `accessToken=${data.Token}`;
+//                    localStorage.setItem('role', data.Role);
 //                    console.log(data.Token);
-//                    window.location.href = "/Read/Index";
+//                    window.location.href = "https://localhost:7001/api/Car/Index";
 //                } else {
 //                    throw new Error('Токен не найден в ответе сервера');
 //                }
@@ -75,22 +74,4 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
 //    });
 //});
 
-//async function getData(url) {
-//    const token = sessionStorage.getItem("Token");
-
-//    const response = await fetch(url, {
-//        method: "GET",
-//        headers: {
-//            "Accept": "application/json",
-//            "Authorization": "Bearer " + token  // передача токена в заголовке
-//        }
-//    });
-//    if (response.ok === true) {
-
-//        const data = await response.json();
-//        alert(data)
-//    }
-//    else
-//        console.log("Status: ", response.status);
-//};
 

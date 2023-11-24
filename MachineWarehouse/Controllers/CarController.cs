@@ -22,14 +22,14 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
             var query = await _carServices.GetAllCars();
             var cars = _mapper.Map<List<CarVm>>(query);
 
-            return View(cars);
+            return Ok("Hello");
         }
 
         [Authorize]
