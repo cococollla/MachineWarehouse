@@ -37,7 +37,7 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
             }
         });
 
-        var data1 = response1.json();        
+        var data1 = await response1.text();        
         console.log(data1);
         console.log("bye");
     }

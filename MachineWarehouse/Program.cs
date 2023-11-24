@@ -3,7 +3,6 @@ using MachineWarehouse.Repository;
 using MachineWarehouse.Services.CarServices;
 using MachineWarehouse.Services.Contracts;
 using MachineWarehouse.Services.Implementations;
-using MachineWarehouse.Services.Options;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +14,7 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+var jwtSettings = builder.Configuration.GetSection("JWT");
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -31,9 +31,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
 
-            ValidIssuer = AuthOptions.Issuer,
-            ValidAudience = AuthOptions.Audience,
-            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = TokenService.GetSymmetricSecurityKey(),
 
             ValidateIssuer = true,
             ValidateAudience = true,

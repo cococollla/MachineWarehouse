@@ -16,7 +16,6 @@
             if (token != null)
             {
                 //context.Request.Headers.Add("Authorization", "Bearer " + token);
-                
             }
                 
             await _next.Invoke(context);
