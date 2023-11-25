@@ -6,8 +6,6 @@ using MachineWarehouse.Services.Implementations;
 using MachineWarehouse.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
@@ -24,6 +22,19 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7001")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+        });
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -86,5 +97,5 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-
+app.UseCors(MyAllowSpecificOrigins);
 app.Run();

@@ -19,27 +19,29 @@ document.getElementById("submitLogin").addEventListener("click", async e => {
     console.log(data.value.accessToken);
 
     if (response.ok === true) {
-        var redirectUrl = "https://localhost:7001/api/Car/Index";
 
-        localStorage.setItem(tokenKey, data.value.accessToken);
-        var token = localStorage.getItem(tokenKey);
-        console.log(token);
-        var accessToken = "Bearer " + token;
-        document.cookie = `accessToken=${token}`;
-        localStorage.setItem('role', data.value.role);
-        //console.log(accessToken);
-        //window.location.href = redirectUrl;
-        const response1 = await fetch(redirectUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': accessToken,
-                'Content-Type': 'application/json'
-            }
-        });
+        document.cookie = `accessToken=${data.value.accessToken}` + '; path=/';
+        window.location.href = window.location.origin + '/api/Car/Index';
+        //localStorage.setItem(tokenKey, data.value.accessToken);
+        //var token = localStorage.getItem(tokenKey);
+        //console.log(token);
+        //var accessToken = "Bearer " + token;
 
-        var data1 = await response1.text();        
-        console.log(data1);
-        console.log("bye");
+        //document.cookie = `accessToken=${token}`;
+
+        //localStorage.setItem('role', data.value.role);
+        //const response1 = await fetch(redirectUrl, {
+        //    method: 'GET',
+        //    headers: {
+        //        'Authorization': accessToken,
+        //        'Content-Type': 'application/json'
+        //    }
+        //});
+
+        //console.log(document.cookie);
+        //window.location.href += "/api/Car/Index";
+        //var data1 = await response1.text();        
+        //console.log(data1);
     }
 });
 

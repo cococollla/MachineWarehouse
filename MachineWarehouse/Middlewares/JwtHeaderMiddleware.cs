@@ -11,13 +11,14 @@
 
         public async Task Invoke(HttpContext context)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             var accessToken = context.Request.Cookies["accessToken"];
-            if (token != null)
+
+            if (accessToken != null)
             {
-                //context.Request.Headers.Add("Authorization", "Bearer " + token);
+
+                context.Request.Headers.Add("Authorization", "Bearer " + accessToken);
             }
-                
+
             await _next.Invoke(context);
         }
     }

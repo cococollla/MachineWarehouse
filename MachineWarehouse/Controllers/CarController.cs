@@ -29,7 +29,7 @@ namespace MachineWarehouse.Controllers
             var query = await _carServices.GetAllCars();
             var cars = _mapper.Map<List<CarVm>>(query);
 
-            return Ok("Hello");
+            return View(cars);
         }
 
         [Authorize]
@@ -46,7 +46,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CarVm>>> GetCars() 
+        public async Task<ActionResult<List<CarVm>>> GetCars()
         {
             var query = await _carServices.GetAllCars();
             var cars = _mapper.Map<List<CarVm>>(query);
@@ -80,7 +80,7 @@ namespace MachineWarehouse.Controllers
 
 
         [HttpPost("UpdateCar")]
-        public async Task<ActionResult> UpdateCar([FromForm] CarDto car) 
+        public async Task<ActionResult> UpdateCar([FromForm] CarDto car)
         {
             var command = _mapper.Map<Car>(car);
             await _carServices.UpdateCar(command);
@@ -89,7 +89,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("DeleteCar")]
-        public async Task<ActionResult> DeleteCar(int id) 
+        public async Task<ActionResult> DeleteCar(int id)
         {
             await _carServices.DeleteCar(id);
 
