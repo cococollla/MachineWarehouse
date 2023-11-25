@@ -53,7 +53,6 @@ namespace MachineWarehouse.Controllers
 
             if (!isExist)
             {
-                //return RedirectToAction("Registration");
                 return Results.BadRequest("User not exist");
             }
 
@@ -67,7 +66,6 @@ namespace MachineWarehouse.Controllers
                 accessToken = token,
             };
 
-            //return RedirectToAction("Index", "Car");
             return Results.Json(response);
         }
 
