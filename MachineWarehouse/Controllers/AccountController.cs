@@ -5,6 +5,7 @@ using MachineWarehouse.Models.Identuty;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.Contracts;
 using MachineWarehouse.Services.UserServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MachineWarehouse.Controllers
@@ -94,6 +95,22 @@ namespace MachineWarehouse.Controllers
 
             return View(user);
 
+        }
+
+        public IActionResult UpdateAccessToken()
+        {
+            string? refreshToken = Request.Cookies["refreshToken"];
+            string role = Request.Cookies["role"];
+            //Если refresh token истек логинимся заново
+            if (refreshToken == null)
+            {
+                return RedirectToAction("Index");
+            }              
+
+            var acceessToken = _tokenService.CreateToken(role);
+            Response.Cookies.Append("acceessToken", acceessToken);
+
+            return Ok();
         }
     }
 }

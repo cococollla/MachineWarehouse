@@ -19,8 +19,10 @@ loginForm.addEventListener('submit', async e => {
     localStorage.setItem('role', data.value.role);
     localStorage.setItem("accessToken", data.value.accessToken);
 
+    role = localStorage.getItem("role");
     accessKey = localStorage.getItem("accessToken");
 
+    document.cookie = `role=${role}` + '; path=/';
     document.cookie = `accessToken=${accessKey}` + '; path=/';
 
     return window.location.href = window.location.origin + '/api/Car/Index';
