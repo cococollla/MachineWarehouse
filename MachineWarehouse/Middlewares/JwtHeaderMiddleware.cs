@@ -15,10 +15,8 @@
 
             if (accessToken != null)
             {
-
                 context.Request.Headers.Add("Authorization", "Bearer " + accessToken);
             }
-
             await _next.Invoke(context);
         }
     }

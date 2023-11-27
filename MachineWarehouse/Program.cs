@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICarServices, CarServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 
@@ -82,6 +82,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseMiddleware<JwtHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -89,13 +90,11 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseMiddleware<JwtHeaderMiddleware>();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-
 app.UseCors(MyAllowSpecificOrigins);
 app.Run();

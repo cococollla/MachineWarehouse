@@ -8,7 +8,12 @@ loginForm.addEventListener('submit', async e => {
         body: new FormData(loginForm)
     });
 
-    alert(document.cookie);
+    fetch("api/Car/Index", {
+        headers: {
+            'Authorization': 'Basic dXNlcjpwd2Q=',
+        },
+    })
+
     var data = await response.json();
 
     if (data.statusCode === 400) {

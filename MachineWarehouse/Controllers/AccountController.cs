@@ -97,20 +97,20 @@ namespace MachineWarehouse.Controllers
 
         }
 
-        public IActionResult UpdateAccessToken()
-        {
-            string? refreshToken = Request.Cookies["refreshToken"];
-            string role = Request.Cookies["role"];
-            //Если refresh token истек логинимся заново
-            if (refreshToken == null)
-            {
-                return RedirectToAction("Index");
-            }              
+        //private IActionResult UpdateAccessToken(HttpContext context)
+        //{
+        //    string? refreshToken = Request.Cookies["refreshToken"];
+        //    string? role = Request.Cookies["role"];
+        //    //Если refresh token истек логинимся заново
+        //    if (refreshToken == null)
+        //    {
+        //        return RedirectToAction("Authenticate");
+        //    }              
 
-            var acceessToken = _tokenService.CreateToken(role);
-            Response.Cookies.Append("acceessToken", acceessToken);
+        //    var acceessToken = _tokenService.CreateToken(role);
+        //    Response.Cookies.Append("acceessToken", acceessToken);
 
-            return Ok();
-        }
+        //    return ;
+        //}
     }
 }
