@@ -3,6 +3,7 @@ using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.UserServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -21,6 +22,7 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
@@ -30,6 +32,7 @@ namespace MachineWarehouse.Controllers
             return View(users);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
@@ -39,6 +42,7 @@ namespace MachineWarehouse.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromForm] UserDto user)
         {
@@ -48,6 +52,7 @@ namespace MachineWarehouse.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("UpdateUser")]
         public async Task<ActionResult> UpdateUser([FromForm] UserDto user)
         {
@@ -57,6 +62,7 @@ namespace MachineWarehouse.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserVm>> GetUser(int id)
         {

@@ -22,7 +22,7 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize]
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
@@ -32,7 +32,7 @@ namespace MachineWarehouse.Controllers
             return View(cars);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Manager")]
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
@@ -54,6 +54,7 @@ namespace MachineWarehouse.Controllers
             return Ok(cars);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet("{id}")]
         public async Task<ActionResult<CarVm>> GetCar(int id)
         {
@@ -69,6 +70,7 @@ namespace MachineWarehouse.Controllers
             return View(car);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("CreateCar")]
         public async Task<ActionResult> CreateCar([FromForm] CarDto car)
         {
@@ -78,7 +80,7 @@ namespace MachineWarehouse.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpPost("UpdateCar")]
         public async Task<ActionResult> UpdateCar([FromForm] CarDto car)
         {
@@ -88,6 +90,7 @@ namespace MachineWarehouse.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("DeleteCar")]
         public async Task<ActionResult> DeleteCar(int id)
         {
