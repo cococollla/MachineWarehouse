@@ -19,10 +19,8 @@ namespace MachineWarehouse.Services.Implementations
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
-        }
+        }     
         
-        
-
         public string CreateToken(string role)
         {
             var now = DateTime.UtcNow;
@@ -54,6 +52,17 @@ namespace MachineWarehouse.Services.Implementations
             );
         }
 
+        public string CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+
+            using (var generator = new RNGCryptoServiceProvider())
+            {
+                generator.GetBytes(randomNumber);
+                string refreshToken = Convert.ToBase64String(randomNumber);
+                return refreshToken;
+            }
+        }
 
     }
 }

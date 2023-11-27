@@ -25,19 +25,28 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("Token")]
-        public async Task<IResult> GetToken(UserDto user)
+        public async Task<AuthResponse> GetToken(UserDto user)
         {
-            var command = await _userService.GetUserByName(user.Name);
+            var command = await _userService.GetUserByName(user.Name);//Поиск роли для дальнейшего добавления в Clims
             var findUser = _mapper.Map<UserVm>(command);
             var token = _tokenService.CreateToken(findUser.Role);
+            var refreshToken = _tokenService.CreateRefreshToken();
+
+            var cookieOptions = new CookieOptions //добавление refreshToken в куки на неделю
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+            };
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
             var response = new AuthResponse
             {
-                role = findUser.Role,
-                accessToken = token,
+                Role = findUser.Role,
+                AccessToken = token,
+                RefreshToken = refreshToken
             };
 
-            return Results.Json(response);
+            return response;
         }
 
         [HttpGet("Authenticate")]
@@ -56,15 +65,7 @@ namespace MachineWarehouse.Controllers
                 return Results.BadRequest("User not exist");
             }
 
-            var command = await _userService.GetUserByName(user.Name);
-            var findUser = _mapper.Map<UserVm>(command);
-            var token = _tokenService.CreateToken(findUser.Role);
-
-            var response = new AuthResponse
-            {
-                role = findUser.Role,
-                accessToken = token,
-            };
+            var response = await GetToken(user);
 
             return Results.Json(response);
         }
