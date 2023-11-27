@@ -10,7 +10,7 @@ loginForm.addEventListener('submit', async e => {
 
     var data = await response.json();
 
-    if (response.ok === true) {
+    if (response.status === 200) {
         localStorage.setItem('role', data.value.role);
         localStorage.setItem("accessToken", data.value.accessToken);
         accessKey = localStorage.getItem("accessToken");
