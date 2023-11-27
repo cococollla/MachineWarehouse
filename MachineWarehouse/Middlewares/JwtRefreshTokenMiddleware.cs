@@ -4,12 +4,12 @@ using System.Net;
 
 namespace MachineWarehouse.Middlewares
 {
-    public class JwtHandlerMiddleware
+    public class JwtRefreshTokenMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ITokenService _tokenService;
 
-        public JwtHandlerMiddleware(RequestDelegate next, ITokenService tokenService)
+        public JwtRefreshTokenMiddleware(RequestDelegate next, ITokenService tokenService)
         {
             _next = next;
             _tokenService = tokenService;
@@ -23,6 +23,7 @@ namespace MachineWarehouse.Middlewares
                 var headerValue = context.Response.Headers["IS-TOKEN-EXPIRED"];
                 if (headerValue == "true")
                 {
+                    var path = context.Request.Path;
                     context.Request.Headers.Remove("Authorization");
                     string? refreshToken = context.Request.Cookies["refreshToken"];
                     string? role = context.Request.Cookies["role"];
@@ -32,9 +33,11 @@ namespace MachineWarehouse.Middlewares
                         context.Response.Redirect("api/Account/Authenticate");
                     }
 
-                    var acceessToken = _tokenService.CreateToken(role);
-                    context.Response.Cookies.Append("acceessToken", acceessToken);
-                    context.Request.Headers.Add("Authorization", "Bearer " + acceessToken);
+                    var accessToken = _tokenService.CreateToken(role);
+                    context.Response.Cookies.Delete("accessToken");
+                    context.Response.Cookies.Append("accessToken", accessToken);
+                    context.Response.Headers.Add("Authorization", "Bearer " + accessToken);
+                    context.Response.Redirect($"{path}");
                 }
             }
         }

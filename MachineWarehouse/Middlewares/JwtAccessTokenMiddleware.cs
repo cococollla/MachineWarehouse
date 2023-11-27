@@ -1,10 +1,10 @@
 ﻿namespace MachineWarehouse.Middlewares
 {
-    public class JwtHeaderMiddleware
+    public class JwtAccessTokenMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public JwtHeaderMiddleware(RequestDelegate next)
+        public JwtAccessTokenMiddleware(RequestDelegate next)
         {
             _next = next;
         }

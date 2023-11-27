@@ -82,14 +82,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseMiddleware<JwtHandlerMiddleware>();
+app.UseMiddleware<JwtRefreshTokenMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseMiddleware<JwtHeaderMiddleware>();
+app.UseMiddleware<JwtAccessTokenMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
