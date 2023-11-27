@@ -23,6 +23,7 @@ namespace MachineWarehouse.Middlewares
                 var headerValue = context.Response.Headers["IS-TOKEN-EXPIRED"];
                 if (headerValue == "true")
                 {
+                    context.Request.Headers.Remove("Authorization");
                     string? refreshToken = context.Request.Cookies["refreshToken"];
                     string? role = context.Request.Cookies["role"];
                     //Если refresh token истек логинимся заново
