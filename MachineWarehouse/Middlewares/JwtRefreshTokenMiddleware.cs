@@ -18,6 +18,7 @@ namespace MachineWarehouse.Middlewares
         public async Task Invoke(HttpContext context)
         {
             await _next(context);
+
             if (context.Response.Headers.ContainsKey("IS-TOKEN-EXPIRED"))
             {
                 var headerValue = context.Response.Headers["IS-TOKEN-EXPIRED"];

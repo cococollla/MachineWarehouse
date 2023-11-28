@@ -1,4 +1,6 @@
-﻿namespace MachineWarehouse.Middlewares
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace MachineWarehouse.Middlewares
 {
     public class JwtAccessTokenMiddleware
     {
@@ -11,12 +13,19 @@
 
         public async Task Invoke(HttpContext context)
         {
-            var accessToken = context.Request.Cookies["accessToken"];
+            var endpoint = context.GetEndpoint();
+            var authorizeAtribure = endpoint.Metadata.GetMetadata<AuthorizeAttribute>();
 
-            if (accessToken != null)
+            if(authorizeAtribure != null)
             {
-                context.Request.Headers.Add("Authorization", "Bearer " + accessToken);
+                var accessToken = context.Request.Cookies["accessToken"];
+
+                if (accessToken != null)
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + accessToken);
+                }
             }
+
             await _next.Invoke(context);
         }
     }

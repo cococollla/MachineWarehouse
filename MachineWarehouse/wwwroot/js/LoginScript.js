@@ -13,16 +13,9 @@ loginForm.addEventListener('submit', async e => {
     if (data.statusCode === 400) {
         return window.location.href = window.location.origin + '/api/Account/Registration';
     }
-    console.log(data);
 
-    localStorage.setItem('role', data.value.role);
-    localStorage.setItem("accessToken", data.value.accessToken);
-
-    role = localStorage.getItem("role");
-    accessKey = localStorage.getItem("accessToken");
-
-    document.cookie = `role=${role}` + '; path=/';
-    document.cookie = `accessToken=${accessKey}` + '; path=/';
+    document.cookie = `role=${data.value.role}` + '; path=/';
+    document.cookie = `accessToken=${data.value.accessToken}` + '; path=/';
 
     return window.location.href = window.location.origin + '/api/Car/Index';
 });
