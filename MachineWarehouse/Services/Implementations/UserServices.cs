@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.View;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +28,7 @@ namespace MachineWarehouse.Services.UserServices
         {
             var user = await _context.Users.FindAsync(id);
 
-            if(user == null) 
+            if (user == null)
             {
                 throw new Exception("Пользователь не найден");
             }
@@ -49,7 +48,7 @@ namespace MachineWarehouse.Services.UserServices
         {
             var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == id);
 
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception("Пользоавтель не найден");
             }
@@ -71,37 +70,37 @@ namespace MachineWarehouse.Services.UserServices
 
         public async Task UpdateUser(User request)
         {
-            var entity = await _context.Users.FirstOrDefaultAsync(user => user.Id == request.Id);
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == request.Id);
 
-            if(entity == null)
+            if (user == null)
             {
                 throw new Exception("Пользоавтель не найден");
             }
 
-            entity.Name = request.Name;
-            entity.Email = request.Email;
-            entity.Login = request.Login;
-            entity.Password = request.Password;
-            entity.RoleId = request.RoleId;
+            user.Name = request.Name;
+            user.Email = request.Email;
+            user.Login = request.Login;
+            user.Password = request.Password;
+            user.RoleId = request.RoleId;
 
             await _context.SaveChangesAsync();
         }
 
         public async Task<List<Role>> GetRoles()
         {
-            List<Role> roles = await _context.Roles.ToListAsync();
+            var roles = await _context.Roles.ToListAsync();
 
             return roles;
         }
 
         public async Task<bool> IsExistUser(string login)
         {
-            return await _context.Users.AnyAsync(user => user.Login == login); 
+            return await _context.Users.AnyAsync(user => user.Login == login);
         }
 
         public int GetDefaultRole()
         {
-            var roleId =  _context.Roles.FirstOrDefaultAsync(role => role.Name == "User").Id;
+            var roleId = _context.Roles.FirstOrDefaultAsync(role => role.Name == "User").Id;
 
             return roleId;
         }

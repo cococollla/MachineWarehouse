@@ -1,10 +1,5 @@
-﻿using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Services.Contracts;
-using MachineWarehouse.Services.UserServices;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
+﻿using MachineWarehouse.Services.Contracts;
 using Microsoft.IdentityModel.Tokens;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -19,8 +14,8 @@ namespace MachineWarehouse.Services.Implementations
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
-        }     
-        
+        }
+
         public string CreateToken(string role)
         {
             var now = DateTime.UtcNow;

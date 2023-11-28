@@ -1,7 +1,4 @@
-﻿using MachineWarehouse.Models;
-using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.View;
-using System.Threading.Tasks;
+﻿using MachineWarehouse.Models.Entities;
 
 namespace MachineWarehouse.Services.CarServices
 {
@@ -14,6 +11,5 @@ namespace MachineWarehouse.Services.CarServices
         public Task DeleteCar(int id);
         public Task<List<Brand>> GetBrands();
         public Task<List<Color>> GetColors();
-
     }
 }

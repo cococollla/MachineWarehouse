@@ -5,7 +5,6 @@ using MachineWarehouse.Models.Identuty;
 using MachineWarehouse.Models.View;
 using MachineWarehouse.Services.Contracts;
 using MachineWarehouse.Services.UserServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MachineWarehouse.Controllers
@@ -36,7 +35,7 @@ namespace MachineWarehouse.Controllers
             var cookieOptions = new CookieOptions //добавление refreshToken в куки на неделю
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(1),
             };
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
@@ -96,21 +95,5 @@ namespace MachineWarehouse.Controllers
             return View(user);
 
         }
-
-        //private IActionResult UpdateAccessToken(HttpContext context)
-        //{
-        //    string? refreshToken = Request.Cookies["refreshToken"];
-        //    string? role = Request.Cookies["role"];
-        //    //Если refresh token истек логинимся заново
-        //    if (refreshToken == null)
-        //    {
-        //        return RedirectToAction("Authenticate");
-        //    }              
-
-        //    var acceessToken = _tokenService.CreateToken(role);
-        //    Response.Cookies.Append("acceessToken", acceessToken);
-
-        //    return ;
-        //}
     }
 }

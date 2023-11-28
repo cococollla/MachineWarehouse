@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.View;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +30,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var car = await _context.Cars.FindAsync(id);
 
-            if( car == null ) 
+            if (car == null)
             {
                 throw new Exception("Автомобиль не найден");
             }
@@ -42,7 +41,7 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<List<Car>> GetAllCars()
         {
-            var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();           
+            var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();
 
             return cars;
         }
@@ -51,7 +50,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var car = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
 
-            if ( car == null ) 
+            if (car == null)
             {
                 throw new Exception("Автомобиль не найден");
             }
@@ -63,7 +62,7 @@ namespace MachineWarehouse.Services.CarServices
         {
             var entity = await _context.Cars.FirstOrDefaultAsync(car => car.Id == request.Id);
 
-            if ( entity == null ) 
+            if (entity == null)
             {
                 throw new Exception("Автомобиль не найден");
             }

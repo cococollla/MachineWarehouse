@@ -7,7 +7,7 @@ namespace MachineWarehouse.Controllers.Profiles
 {
     public class CarProfile : Profile
     {
-        public CarProfile() 
+        public CarProfile()
         {
             CreateMap<CarDto, Car>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(carDto => carDto.Id))

@@ -14,9 +14,9 @@ namespace MachineWarehouse.Middlewares
         public async Task Invoke(HttpContext context)
         {
             var endpoint = context.GetEndpoint();
-            var authorizeAtribure = endpoint.Metadata.GetMetadata<AuthorizeAttribute>();
+            var authorizeAtribure = endpoint?.Metadata.GetMetadata<AuthorizeAttribute>();
 
-            if(authorizeAtribure != null)
+            if (authorizeAtribure != null)
             {
                 var accessToken = context.Request.Cookies["accessToken"];
 

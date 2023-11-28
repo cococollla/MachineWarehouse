@@ -1,5 +1,4 @@
 ﻿using MachineWarehouse.Models.Entities;
-using MachineWarehouse.Models.View;
 
 namespace MachineWarehouse.Services.UserServices
 {
