@@ -98,5 +98,12 @@ namespace MachineWarehouse.Services.UserServices
         {
             return await _context.Users.AnyAsync(user => user.Login == login); 
         }
+
+        public int GetDefaultRole()
+        {
+            var roleId =  _context.Roles.FirstOrDefaultAsync(role => role.Name == "User").Id;
+
+            return roleId;
+        }
     }
 }

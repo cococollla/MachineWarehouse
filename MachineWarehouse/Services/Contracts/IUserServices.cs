@@ -13,5 +13,6 @@ namespace MachineWarehouse.Services.UserServices
         public Task<List<Role>> GetRoles();
         public Task<bool> IsExistUser(string login);
         public Task<User> GetUserByName(string name);
+        public int GetDefaultRole();
     }
 }

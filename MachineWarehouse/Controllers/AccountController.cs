@@ -26,7 +26,7 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("Token")]
-        public async Task<AuthResponse> GetToken(UserDto user)
+        private async Task<AuthResponse> GetToken(UserDto user)
         {
             var command = await _userService.GetUserByName(user.Name);//Поиск роли для дальнейшего добавления в Clims
             var findUser = _mapper.Map<UserVm>(command);
@@ -83,7 +83,7 @@ namespace MachineWarehouse.Controllers
         public async Task<ActionResult> Registration([FromForm] UserDto user)
         {
             var isExist = await _userService.IsExistUser(user.Login);
-            user.RoleId = 3;
+            user.RoleId = _userService.GetDefaultRole();
             var command = _mapper.Map<User>(user);
 
             if (!isExist)
