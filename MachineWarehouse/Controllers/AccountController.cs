@@ -35,7 +35,7 @@ namespace MachineWarehouse.Controllers
             var cookieOptions = new CookieOptions //добавление refreshToken в куки на неделю
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddDays(7),
             };
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 

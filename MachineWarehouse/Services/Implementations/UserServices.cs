@@ -100,7 +100,7 @@ namespace MachineWarehouse.Services.UserServices
 
         public int GetDefaultRole()
         {
-            var roleId = _context.Roles.FirstOrDefaultAsync(role => role.Name == "User").Id;
+            var roleId = _context.Roles.FirstOrDefault(role => role.Name == "User").Id;
 
             return roleId;
         }
