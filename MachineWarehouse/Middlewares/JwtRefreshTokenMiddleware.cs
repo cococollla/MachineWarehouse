@@ -19,7 +19,9 @@ namespace MachineWarehouse.Middlewares
 
             if (context.Response.Headers.ContainsKey("IS-TOKEN-EXPIRED"))
             {
+                var loginPath = "/api/Account/Authenticate";
                 var headerValue = context.Response.Headers["IS-TOKEN-EXPIRED"];
+
                 if (headerValue == "true")
                 {
                     var path = context.Request.Path;
@@ -29,8 +31,8 @@ namespace MachineWarehouse.Middlewares
                     //Если refresh token истек логинимся заново
                     if (refreshToken == null)
                     {
-                        context.Request.Path = "/api/Account/Authenticate";
-                        context.Response.Redirect("/api/Account/Authenticate");
+                        context.Request.Path = loginPath;
+                        context.Response.Redirect(loginPath);
                         return;
                     }
 
