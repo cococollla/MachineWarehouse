@@ -1,6 +1,4 @@
 ﻿using MachineWarehouse.Services.Contracts;
-using Microsoft.IdentityModel.Tokens;
-using System.Net;
 
 namespace MachineWarehouse.Middlewares
 {
@@ -31,7 +29,9 @@ namespace MachineWarehouse.Middlewares
                     //Если refresh token истек логинимся заново
                     if (refreshToken == null)
                     {
-                        context.Response.Redirect("api/Account/Authenticate");
+                        context.Request.Path = "/api/Account/Authenticate";
+                        context.Response.Redirect("/api/Account/Authenticate");
+                        return;
                     }
 
                     var accessToken = _tokenService.CreateToken(role);
