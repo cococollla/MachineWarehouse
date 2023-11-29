@@ -93,13 +93,13 @@ namespace MachineWarehouse.Services.UserServices
         /// <summary>
         /// Получает роль пользователя по его имени
         /// </summary>
-        /// <param name="name">Имя по которому будет найден пользователь</param>
+        /// <param name="name">Логин по которому будет найден пользователь</param>
         /// <returns>Данные пользователя</returns>
-        public async Task<User> GetUserByName(string name)
+        public async Task<User> GetUserByLogin(string login)
         {
             try
             {
-                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Name == name);
+                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Login == login);
 
                 if (user == null)
                 {

@@ -1,34 +1,28 @@
 ﻿@using System.Web
-@model UserDto
 
-<div>
-    <form asp-action="Registration" asp-controller="Account" method="get">
-        <input type="submit" value="Registration" />
-    </form>
-    <form asp-action="Authenticate" asp-controller="Account" method="post" id="AuthForm">
-        <div>
+<body>
+
+    <div>
+        <form action="/api/Account/Authenticate" method="post" id="AuthForm">
             <div>
-                <label asp-for="Name">Name</label><br />
-                <input asp-for="Name" id="name"/>
+                <div>
+                    <label for="login">Login</label><br />
+                    <input type="text" name="login" id="login" />
+                </div>
+                <div>
+                    <label for="password">Password</label><br />
+                    <input type="password" name="password" id="password" />
+                </div>
+                <div>
+                    <button type="submit" id="submitLogin">Log in</button>
+                    <a href="/api/Account/Registration" class="button-link">Registration</a>
+                </div>
             </div>
-            <div>
-                <label asp-for="Email">Email</label><br />
-                <input asp-for="Email" id="email" />
-            </div>
-            <div>
-                <label asp-for="Login">Login</label><br />
-                <input asp-for="Login" id="login"/>
-            </div>
-            <div>
-                <label asp-for="Password">Password</label><br />
-                <input asp-for="Password" id="password"/>
-            </div>
-            <div>
-                <button type="submit" id="submitLogin">Log in</button>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
+
+    <script src="~/js/LoginScript.js"></script>
+
+</body>
 <script src="~/js/LoginScript.js"></script>
-
-
+<link rel="stylesheet" href="~/css/auth.css">

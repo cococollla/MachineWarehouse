@@ -3,7 +3,7 @@
     "MachineWarehouse": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/Account/Authenticate",
+      "launchUrl": "api/Account/Auth",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

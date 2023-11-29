@@ -25,9 +25,9 @@ namespace MachineWarehouse.Controllers
         }
 
         [HttpPost("Token")]
-        private async Task<AuthResponse> GetToken(UserDto user)
+        private async Task<AuthResponse> GetToken(string login)
         {
-            var command = await _userService.GetUserByName(user.Name);//Поиск роли для дальнейшего добавления в Clims
+            var command = await _userService.GetUserByLogin(login);//Поиск роли для дальнейшего добавления в Clims
             var findUser = _mapper.Map<UserVm>(command);
             var token = _tokenService.CreateToken(findUser.Role);
             var refreshToken = _tokenService.CreateRefreshToken();
@@ -49,23 +49,23 @@ namespace MachineWarehouse.Controllers
             return response;
         }
 
-        [HttpGet("Authenticate")]
+        [HttpGet("Auth")]
         public IActionResult Authenticate()
         {
             return View();
         }
 
         [HttpPost("Authenticate")]
-        public async Task<IResult> Authenticate([FromForm] UserDto user)
+        public async Task<IResult> Authenticate([FromForm] string login, [FromForm] string password)
         {
-            var isExist = await _userService.IsExistUser(user.Login);
+            var isExist = await _userService.IsExistUser(login);
 
             if (!isExist)
             {
                 return Results.BadRequest("User not exist");
             }
 
-            var response = await GetToken(user);
+            var response = await GetToken(login);
 
             return Results.Json(response);
         }
@@ -82,11 +82,11 @@ namespace MachineWarehouse.Controllers
         public async Task<ActionResult> Registration([FromForm] UserDto user)
         {
             var isExist = await _userService.IsExistUser(user.Login);
-            user.RoleId = _userService.GetDefaultRole();
-            var command = _mapper.Map<User>(user);
 
             if (!isExist)
             {
+                user.RoleId = _userService.GetDefaultRole();
+                var command = _mapper.Map<User>(user);
                 await _userService.CreateUser(command);
 
                 return RedirectToAction("Authenticate");
