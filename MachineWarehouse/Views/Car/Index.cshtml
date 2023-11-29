@@ -1,13 +1,15 @@
 ﻿@using System.Web
 @model IEnumerable<CarVm>
-<div>
-    <form asp-action="Create" asp-controller="Car">
-        <input type="submit" value="Create car" />
+
+
+<div id="checkUser">
+    <form asp-action="Index" method="get" asp-controller="User">
+        <button type="submit">Check user</button>
     </form>
 </div>
-<div>
-    <form asp-action="Index" asp-controller="User">
-        <input type="submit" value="Chek users" />
+<div id="createCar">
+    <form asp-action="Create" method="get" asp-controller="Car">
+        <button type="submit">Create car</button>
     </form>
 </div>
 <div>
@@ -23,12 +25,12 @@
                     <td>@item.YearRelese</td>
                     <td>@item.Price</td>
                     <td>
-                        <form asp-controller="Car" asp-action="GetCar" method="get" asp-route-id="@item.Id">
+                        <form asp-controller="Car" asp-action="GetCar" method="get" asp-route-id="@item.Id" id="editCar">
                             <button type="submit">Edit</button>
                         </form>
                     </td>
                     <td>
-                        <form asp-controller="Car" method="post" asp-action="DeleteCar" asp-route-id="@item.Id">
+                        <form asp-controller="Car" method="post" asp-action="DeleteCar" asp-route-id="@item.Id" id="deleteCar">
                             <button type="submit">Delete</button>
                         </form>
                     </td>
@@ -43,3 +45,4 @@
         }
     </div>
 </div>
+<script src="~/js/hideDiv.js"></script>
