@@ -4,7 +4,7 @@ namespace MachineWarehouse.Services.CarServices
 {
     public interface ICarServices
     {
-        public Task<Car> AddCar(Car request);
+        public Task AddCar(Car request);
         public Task<List<Car>> GetAllCars();
         public Task<Car> GetCarById(int id);
         public Task UpdateCar(Car request);

@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.CarServices
 {
+    /// <summary>
+    /// Сервис для управления записями об автомобиле в БД
+    /// </summary>
     public class CarServices : ICarServices
     {
         private readonly ApplicationContext _context;
@@ -17,17 +20,22 @@ namespace MachineWarehouse.Services.CarServices
             _mapper = mapper;
         }
 
-        public async Task<Car> AddCar(Car request)
+        /// <summary>
+        /// Добавляет автомобиль в БД
+        /// </summary>
+        /// <param name="request">Данные автомобиля</param>
+        public async Task AddCar(Car request)
         {
-
             var car = _mapper.Map<Car>(request);
 
             await _context.Cars.AddAsync(car);
             await _context.SaveChangesAsync();
-
-            return car;
         }
 
+        /// <summary>
+        /// Удаляет запись об автомобиле в БД
+        /// </summary>
+        /// <param name="id">Id по которому будет найден автомобиль</param>
         public async Task DeleteCar(int id)
         {
             try
@@ -49,6 +57,10 @@ namespace MachineWarehouse.Services.CarServices
 
         }
 
+        /// <summary>
+        /// Получает список всех автомобилей в БД
+        /// </summary>
+        /// <returns>Список автомобилей</returns>
         public async Task<List<Car>> GetAllCars()
         {
 
@@ -57,6 +69,11 @@ namespace MachineWarehouse.Services.CarServices
             return cars;
         }
 
+        /// <summary>
+        /// Получает запись об автомобиле из БД
+        /// </summary>
+        /// <param name="id">Id по которому будет найден автомобиль</param>
+        /// <returns>Данные автомобиля</returns>
         public async Task<Car> GetCarById(int id)
         {
             try
@@ -76,6 +93,10 @@ namespace MachineWarehouse.Services.CarServices
             }
         }
 
+        /// <summary>
+        /// Обновляет данные автомобиля в БД
+        /// </summary>
+        /// <param name="request">Обновленные данные</param>
         public async Task UpdateCar(Car request)
         {
             try
@@ -101,6 +122,10 @@ namespace MachineWarehouse.Services.CarServices
             }
         }
 
+        /// <summary>
+        /// Получает список брэндов автомобилей
+        /// </summary>
+        /// <returns>Список брэндов</returns>
         public async Task<List<Brand>> GetBrands()
         {
             List<Brand> brands = await _context.Brands.ToListAsync();
@@ -108,6 +133,10 @@ namespace MachineWarehouse.Services.CarServices
             return brands;
         }
 
+        /// <summary>
+        /// Получает список цветов для автомобилей
+        /// </summary>
+        /// <returns>Список цветов</returns>
         public async Task<List<Color>> GetColors()
         {
             List<Color> colors = await _context.Colors.ToListAsync();

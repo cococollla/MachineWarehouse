@@ -48,7 +48,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return View();
             }
 
@@ -66,7 +66,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -93,7 +93,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -111,7 +111,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -134,7 +134,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -156,7 +156,7 @@ namespace MachineWarehouse.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                TempData["ErrorMessage"] = "The service not available right now" + ex.Message;
                 return RedirectToAction("Index");
             }
         }

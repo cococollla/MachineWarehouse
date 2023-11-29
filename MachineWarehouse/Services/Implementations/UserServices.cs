@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MachineWarehouse.Services.UserServices
 {
+    /// <summary>
+    /// Сервис для управления записями о пользователе в БД
+    /// </summary>
     public class UserServices : IUserServices
     {
         private readonly ApplicationContext _context;
@@ -17,14 +20,20 @@ namespace MachineWarehouse.Services.UserServices
             _mapper = mapper;
         }
 
-        public async Task<User> CreateUser(User request)
+        /// <summary>
+        /// Добавляет пользователя в БД
+        /// </summary>
+        /// <param name="request">Данные пользователя для регистрации</param>
+        public async Task CreateUser(User request)
         {
             await _context.Users.AddAsync(request);
             await _context.SaveChangesAsync();
-
-            return request;
         }
 
+        /// <summary>
+        /// Удаляет запись о пользователе из БД
+        /// </summary>
+        /// <param name="id">Id по которому будет удален пользователь</param>
         public async Task DeleteUser(int id)
         {
             try
@@ -45,6 +54,10 @@ namespace MachineWarehouse.Services.UserServices
             }
         }
 
+        /// <summary>
+        /// Получает список всех пользователей из БД
+        /// </summary>
+        /// <returns>Список пользователей</returns>
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users.Include(u => u.Role).ToListAsync();
@@ -52,11 +65,16 @@ namespace MachineWarehouse.Services.UserServices
             return users;
         }
 
+        /// <summary>
+        /// Получает запись о пользователе из БД
+        /// </summary>
+        /// <param name="id">Id по которому будет найден пользователь</param>
+        /// <returns>Данные пользователя</returns>
         public async Task<User> GetUserByid(int id)
         {
             try
             {
-                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == 40);
+                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.Id == id);
 
                 if (user == null)
                 {
@@ -72,6 +90,11 @@ namespace MachineWarehouse.Services.UserServices
 
         }
 
+        /// <summary>
+        /// Получает роль пользователя по его имени
+        /// </summary>
+        /// <param name="name">Имя по которому будет найден пользователь</param>
+        /// <returns>Данные пользователя</returns>
         public async Task<User> GetUserByName(string name)
         {
             try
@@ -92,6 +115,10 @@ namespace MachineWarehouse.Services.UserServices
 
         }
 
+        /// <summary>
+        /// Обновляет данные пользоваетля в БД
+        /// </summary>
+        /// <param name="request">Обновленные данные</param>
         public async Task UpdateUser(User request)
         {
             try
@@ -117,6 +144,10 @@ namespace MachineWarehouse.Services.UserServices
             }
         }
 
+        /// <summary>
+        /// Получает список всех ролей из БД
+        /// </summary>
+        /// <returns>Список ролей</returns>
         public async Task<List<Role>> GetRoles()
         {
             var roles = await _context.Roles.ToListAsync();
@@ -124,11 +155,19 @@ namespace MachineWarehouse.Services.UserServices
             return roles;
         }
 
+        /// <summary>
+        /// Проверяет существует ли пользователь с данным логином
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
         public async Task<bool> IsExistUser(string login)
         {
             return await _context.Users.AnyAsync(user => user.Login == login);
         }
 
+        /// <summary>
+        /// Задает роль по-умолчанию для пользователя при регистрации
+        /// </summary>
+        /// <returns>Id роли из БД</returns>
         public int GetDefaultRole()
         {
             try

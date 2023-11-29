@@ -4,7 +4,7 @@ namespace MachineWarehouse.Services.UserServices
 {
     public interface IUserServices
     {
-        public Task<User> CreateUser(User request);
+        public Task CreateUser(User request);
         public Task UpdateUser(User request);
         public Task<List<User>> GetAllUsers();
         public Task<User> GetUserByid(int id);
