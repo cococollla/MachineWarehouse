@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MachineWarehouse.Controllers
 {
+    /// <summary>
+    /// Контроллер для регистрации и авторизации
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : Controller
@@ -24,6 +27,11 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Создает access и refresh токены
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <returns>Созданные токены и роль пользователя</returns>
         [HttpPost("Token")]
         private async Task<AuthResponse> GetToken(string login)
         {
@@ -49,12 +57,21 @@ namespace MachineWarehouse.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Загружает форму входа
+        /// </summary>
         [HttpGet("Auth")]
         public IActionResult Authenticate()
         {
             return View();
         }
 
+        /// <summary>
+        /// Проверяет данные пользовател для входа
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <param name="password">Пароль пользователя</param>
+        /// <returns>Созданные токены и роль пользователя</returns>
         [HttpPost("Authenticate")]
         public async Task<IResult> Authenticate([FromForm] string login, [FromForm] string password)
         {
@@ -70,14 +87,19 @@ namespace MachineWarehouse.Controllers
             return Results.Json(response);
         }
 
-
-
+        /// <summary>
+        /// Загружает форму регистрации
+        /// </summary>
         [HttpGet("Registration")]
         public IActionResult Registration()
         {
             return View();
         }
 
+        /// <summary>
+        /// Добавляет зарегистрированного пользователя в БД
+        /// </summary>
+        /// <param name="user">Данные пользователя</param>
         [HttpPost("Registration")]
         public async Task<ActionResult> Registration([FromForm] UserDto user)
         {

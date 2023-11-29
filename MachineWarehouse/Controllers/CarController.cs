@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MachineWarehouse.Controllers
 {
+    /// <summary>
+    /// Контроллер для управления и просмотра автомобилей
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CarController : Controller
@@ -23,6 +26,9 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Загружает форму со списком всех автомобилей
+        /// </summary>
         [Authorize]
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
@@ -33,6 +39,9 @@ namespace MachineWarehouse.Controllers
             return View(cars);
         }
 
+        /// <summary>
+        /// Загружает форму для добавления автомобиля в БД
+        /// </summary>
         [Authorize(Roles = "Manager")]
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
@@ -54,6 +63,9 @@ namespace MachineWarehouse.Controllers
 
         }
 
+        /// <summary>
+        /// Загружает список всех автомобилей из БД
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<CarVm>>> GetCars()
         {
@@ -71,6 +83,10 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Загружает форму для редактирования выбранного автомобиля
+        /// </summary>
+        /// <param name="id">Id выбранного автомобиля</param>
         [Authorize(Roles = "Manager")]
         [HttpGet("{id}")]
         public async Task<ActionResult<CarVm>> GetCar(int id)
@@ -98,6 +114,10 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Добавляет новый автомобиль в БД
+        /// </summary>
+        /// <param name="car">Данные автомобиля</param>
         [Authorize(Roles = "Manager")]
         [HttpPost("CreateCar")]
         public async Task<ActionResult> CreateCar([FromForm] CarDto car)
@@ -116,6 +136,10 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Обновляет данные автомобиля
+        /// </summary>
+        /// <param name="car">обновленные данные автомобиля</param>
         [Authorize(Roles = "Manager")]
         [HttpPost("UpdateCar")]
         public async Task<ActionResult> UpdateCar([FromForm] CarDto car)
@@ -139,6 +163,10 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Удаляет выбранный автомобиль
+        /// </summary>
+        /// <param name="id">Id выбранного автомобиля</param>
         [Authorize(Roles = "Manager")]
         [HttpPost("DeleteCar")]
         public async Task<ActionResult> DeleteCar(int id)

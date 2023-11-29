@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MachineWarehouse.Controllers
 {
+    /// <summary>
+    /// Контроллер для управления и просмотра пользователей
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : Controller
@@ -23,6 +26,9 @@ namespace MachineWarehouse.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Загружает форму со списком всех пользователей
+        /// </summary>
         [Authorize(Roles = "Admin")]
         [Route("Index")]
         public async Task<IActionResult> Index()
@@ -33,6 +39,9 @@ namespace MachineWarehouse.Controllers
             return View(users);
         }
 
+        /// <summary>
+        /// Загружает форму для добавления пользователя
+        /// </summary>
         [Authorize(Roles = "Admin")]
         [Route("Create")]
         public async Task<IActionResult> Create()
@@ -52,6 +61,11 @@ namespace MachineWarehouse.Controllers
 
         }
 
+
+        /// <summary>
+        /// Добавляет нового пользователя в БД
+        /// </summary>
+        /// <param name="user">Данные пользователя</param>
         [Authorize(Roles = "Admin")]
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromForm] UserDto user)
@@ -70,6 +84,10 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Обновляет данные пользователя
+        /// </summary>
+        /// <param name="user">Обновленные данные пользователя</param>
         [Authorize(Roles = "Admin")]
         [HttpPost("UpdateUser")]
         public async Task<ActionResult> UpdateUser([FromForm] UserDto user)
@@ -93,6 +111,11 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Загружает форму для редактированния выбранного пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserVm>> GetUser(int id)
@@ -118,6 +141,9 @@ namespace MachineWarehouse.Controllers
             }
         }
 
+        /// <summary>
+        /// Загружает список всех пользователй
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<List<UserVm>>> GetUsers()
         {
@@ -127,6 +153,10 @@ namespace MachineWarehouse.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Удаляет пользователя из БД
+        /// </summary>
+        /// <param name="id">Id выбранного пользователя</param>
         [HttpPost("DeleteUser")]
         public async Task<ActionResult> DeleteUser(int id)
         {

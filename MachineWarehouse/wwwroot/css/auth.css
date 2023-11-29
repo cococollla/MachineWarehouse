@@ -4,15 +4,15 @@
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4; /* Set your desired background color */
+    background-color: #f4f4f4;
 }
 
 .container {
     width: 300px;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight box shadow for a levitation effect */
-    background-color: #fff; /* Set your desired background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     text-align: center;
 }
 
@@ -34,17 +34,17 @@ button {
 }
 
 button {
-    background-color: #3498db; /* Set your desired button color */
+    background-color: #3498db;
     color: #fff;
     cursor: pointer;
 }
 
     button:hover {
-        background-color: #2980b9; /* Set your desired button hover color */
+        background-color: #2980b9;
     }
 
 #submitLogin {
-    margin-top: 10px; /* Adjust the margin for the submit button */
+    margin-top: 10px;
 }
 
 .button-link {
@@ -52,14 +52,14 @@ button {
     padding: 8px;
     text-align: center;
     text-decoration: none;
-    border: 1px solid #3498db; /* Set the same border color as the button */
+    border: 1px solid #3498db;
     border-radius: 4px;
-    color: #3498db; /* Set the same text color as the button */
-    background-color: #fff; /* Set the same background color as the button */
+    color: #3498db;
+    background-color: #fff;
     cursor: pointer;
 }
 
     .button-link:hover {
-        background-color: #3498db; /* Set the same hover background color as the button */
-        color: #fff; /* Set the same hover text color as the button */
+        background-color: #3498db;
+        color: #fff;
     }
