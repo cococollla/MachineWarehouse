@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Exceptions;
 using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.View;
@@ -36,67 +37,128 @@ namespace MachineWarehouse.Controllers
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
-            var brands = await _carServices.GetBrands();
-            ViewBag.Brands = new SelectList(brands, "Id", "Name");
+            try
+            {
+                var brands = await _carServices.GetBrands();
+                ViewBag.Brands = new SelectList(brands, "Id", "Name");
+                var colors = await _carServices.GetColors();
+                ViewBag.Colors = new SelectList(colors, "Id", "Name");
 
-            var colors = await _carServices.GetColors();
-            ViewBag.Colors = new SelectList(colors, "Id", "Name");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return View();
+            }
 
-            return View();
         }
 
         [HttpGet]
         public async Task<ActionResult<List<CarVm>>> GetCars()
         {
-            var query = await _carServices.GetAllCars();
-            var cars = _mapper.Map<List<CarVm>>(query);
+            try
+            {
+                var query = await _carServices.GetAllCars();
+                var cars = _mapper.Map<List<CarVm>>(query);
 
-            return Ok(cars);
+                return Ok(cars);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Manager")]
         [HttpGet("{id}")]
         public async Task<ActionResult<CarVm>> GetCar(int id)
         {
-            var brands = await _carServices.GetBrands();
-            ViewBag.Brands = new SelectList(brands, "Id", "Name");
+            try
+            {
+                var brands = await _carServices.GetBrands();
+                ViewBag.Brands = new SelectList(brands, "Id", "Name");
+                var colors = await _carServices.GetColors();
+                ViewBag.Colors = new SelectList(colors, "Id", "Name");
+                var query = await _carServices.GetCarById(id);
+                var car = _mapper.Map<CarVm>(query);
 
-            var colors = await _carServices.GetColors();
-            ViewBag.Colors = new SelectList(colors, "Id", "Name");
-
-            var query = await _carServices.GetCarById(id);
-            var car = _mapper.Map<CarVm>(query);
-
-            return View(car);
+                return View(car);
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Manager")]
         [HttpPost("CreateCar")]
         public async Task<ActionResult> CreateCar([FromForm] CarDto car)
         {
-            var command = _mapper.Map<Car>(car);
-            await _carServices.AddCar(command);
+            try
+            {
+                var command = _mapper.Map<Car>(car);
+                await _carServices.AddCar(command);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Manager")]
         [HttpPost("UpdateCar")]
         public async Task<ActionResult> UpdateCar([FromForm] CarDto car)
         {
-            var command = _mapper.Map<Car>(car);
-            await _carServices.UpdateCar(command);
+            try
+            {
+                var command = _mapper.Map<Car>(car);
+                await _carServices.UpdateCar(command);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Manager")]
         [HttpPost("DeleteCar")]
         public async Task<ActionResult> DeleteCar(int id)
         {
-            await _carServices.DeleteCar(id);
+            try
+            {
+                await _carServices.DeleteCar(id);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

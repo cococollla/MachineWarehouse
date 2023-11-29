@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Exceptions;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<Car> AddCar(Car request)
         {
+
             var car = _mapper.Map<Car>(request);
 
             await _context.Cars.AddAsync(car);
@@ -28,19 +30,28 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task DeleteCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-
-            if (car == null)
+            try
             {
-                throw new Exception("Автомобиль не найден");
+                var car = await _context.Cars.FindAsync(id);
+
+                if (car == null)
+                {
+                    throw new NotFoundException($"Car is not found");
+                }
+
+                _context.Cars.Remove(car);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
             }
 
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Car>> GetAllCars()
         {
+
             var cars = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).ToListAsync();
 
             return cars;
@@ -48,32 +59,46 @@ namespace MachineWarehouse.Services.CarServices
 
         public async Task<Car> GetCarById(int id)
         {
-            var car = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
-
-            if (car == null)
+            try
             {
-                throw new Exception("Автомобиль не найден");
-            }
+                var car = await _context.Cars.Include(b => b.Brand).Include(c => c.Color).FirstOrDefaultAsync(car => car.Id == id);
 
-            return car;
+                if (car == null)
+                {
+                    throw new NotFoundException($"Car is not found");
+                }
+
+                return car;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task UpdateCar(Car request)
         {
-            var entity = await _context.Cars.FirstOrDefaultAsync(car => car.Id == request.Id);
-
-            if (entity == null)
+            try
             {
-                throw new Exception("Автомобиль не найден");
+                var car = await _context.Cars.FirstOrDefaultAsync(car => car.Id == request.Id);
+
+                if (car == null)
+                {
+                    throw new NotFoundException($"Car is not found");
+                }
+
+                car.YearRelese = request.YearRelese;
+                car.Price = request.Price;
+                car.ShorDescription = request.ShorDescription;
+                car.BrandId = request.BrandId;
+                car.ColorId = request.ColorId;
+
+                await _context.SaveChangesAsync();
             }
+            catch
+            {
 
-            entity.YearRelese = request.YearRelese;
-            entity.Price = request.Price;
-            entity.ShorDescription = request.ShorDescription;
-            entity.BrandId = request.BrandId;
-            entity.ColorId = request.ColorId;
-
-            await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<List<Brand>> GetBrands()

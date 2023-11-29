@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MachineWarehouse.Exceptions;
 using MachineWarehouse.Models.DtoModels;
 using MachineWarehouse.Models.Entities;
 using MachineWarehouse.Models.View;
@@ -36,42 +37,85 @@ namespace MachineWarehouse.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
-            var roles = await _userServices.GetRoles();
-            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+            try
+            {
+                var roles = await _userServices.GetRoles();
+                ViewBag.Roles = new SelectList(roles, "Id", "Name");
 
-            return View();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return View();
+            }
+
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("CreateUser")]
         public async Task<ActionResult> CreateUser([FromForm] UserDto user)
         {
-            var command = _mapper.Map<User>(user);
-            await _userServices.CreateUser(command);
+            try
+            {
+                var command = _mapper.Map<User>(user);
+                await _userServices.CreateUser(command);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("UpdateUser")]
         public async Task<ActionResult> UpdateUser([FromForm] UserDto user)
         {
-            var command = _mapper.Map<User>(user);
-            await _userServices.UpdateUser(command);
+            try
+            {
+                var command = _mapper.Map<User>(user);
+                await _userServices.UpdateUser(command);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserVm>> GetUser(int id)
         {
-            var roles = await _userServices.GetRoles();
-            ViewBag.Roles = new SelectList(roles, "Id", "Name");
-            var query = await _userServices.GetUserByid(id);
-            var user = _mapper.Map<UserVm>(query);
+            try
+            {
+                var roles = await _userServices.GetRoles();
+                ViewBag.Roles = new SelectList(roles, "Id", "Name");
+                var query = await _userServices.GetUserByid(id);
+                var user = _mapper.Map<UserVm>(query);
 
-            return View(user);
+                return View(user);
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpGet]
@@ -86,8 +130,21 @@ namespace MachineWarehouse.Controllers
         [HttpPost("DeleteUser")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            await _userServices.DeleteUser(id);
-            return RedirectToAction("Index");
+            try
+            {
+                await _userServices.DeleteUser(id);
+                return RedirectToAction("Index");
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "The service nit available right now" + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

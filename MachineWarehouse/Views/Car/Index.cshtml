@@ -24,7 +24,7 @@
                     <td>@item.Price</td>
                     <td>
                         <form asp-controller="Car" asp-action="GetCar" method="get" asp-route-id="@item.Id">
-                           <button type="submit">Edit</button>
+                            <button type="submit">Edit</button>
                         </form>
                     </td>
                     <td>
@@ -35,5 +35,11 @@
                 </tr>
             }
         </table>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
     </div>
 </div>
